@@ -1,482 +1,411 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Noah Robles · Verizon Wireless</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carnalitos — Car Club & Member-Owned Fund</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Archivo:wght@400;500;600;700;800&family=UnifrakturMaguntia&family=Pirata+One&display=swap" rel="stylesheet">
+<style>
+:root{
+  --steel:#14181f;
+  --steel-2:#1c222c;
+  --steel-3:#262e3a;
+  --gold:#d4a23a;
+  --gold-soft:#e7c878;
+  --ink:#0c0f14;
+  --cream:#f3efe6;
+  --muted:#9aa3b0;
+  --line:rgba(212,162,58,.22);
+  --green:#5fae6b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);
+  color:var(--cream);
+  font-family:'Archivo',sans-serif;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(900px 500px at 80% -10%, rgba(212,162,58,.10), transparent 60%),
+    radial-gradient(700px 600px at -10% 100%, rgba(212,162,58,.05), transparent 55%);
+}
+.wrap{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:0 22px}
+
+/* ---- HERO ---- */
+header.hero{
+  position:relative;overflow:hidden;
+  background:
+    linear-gradient(180deg, var(--steel) 0%, var(--ink) 100%);
+  border-bottom:1px solid var(--line);
+  padding:64px 0 48px;
+}
+.hero::after{
+  content:"";position:absolute;inset:0;opacity:.06;pointer-events:none;
+  background-image:repeating-linear-gradient(135deg,#fff 0 1px,transparent 1px 11px);
+}
+.kicker{
+  font-family:'Oswald',sans-serif;letter-spacing:.42em;font-size:12px;
+  color:var(--gold);text-transform:uppercase;font-weight:600;margin-bottom:14px;
+}
+h1.brand{
+  font-family:'UnifrakturMaguntia',serif;font-weight:400;
+  font-size:clamp(58px,13vw,140px);line-height:.95;letter-spacing:.01em;
+  color:var(--cream);text-shadow:0 3px 0 rgba(0,0,0,.4);
+}
+h1.brand span{
+  display:inline;color:var(--gold);-webkit-text-stroke:0;
+}
+.tagline{
+  margin-top:20px;max-width:560px;font-size:clamp(17px,2.6vw,21px);
+  color:var(--cream);font-weight:500;
+}
+.tagline em{color:var(--gold-soft);font-style:normal;}
+.hero-rule{height:3px;width:96px;background:var(--gold);margin-top:26px;border-radius:2px}
+
+/* ---- NAV ---- */
+nav.tabs{
+  position:sticky;top:0;z-index:20;
+  background:rgba(12,15,20,.86);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.tabs-inner{max-width:980px;margin:0 auto;display:flex;gap:6px;padding:0 22px}
+.tab{
+  appearance:none;border:0;background:none;cursor:pointer;
+  font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.14em;
+  font-size:14px;font-weight:600;color:var(--muted);
+  padding:18px 14px;position:relative;transition:color .2s;
+}
+.tab:hover{color:var(--cream)}
+.tab.active{color:var(--gold)}
+.tab.active::after{
+  content:"";position:absolute;left:14px;right:14px;bottom:-1px;height:3px;
+  background:var(--gold);border-radius:2px;
+}
+
+/* ---- PANELS ---- */
+.panel{display:none;padding:54px 0 90px;animation:fade .4s ease}
+.panel.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+section{margin-bottom:42px}
+.sec-num{
+  font-family:'Oswald',sans-serif;color:var(--gold);font-weight:700;
+  font-size:13px;letter-spacing:.2em;
+}
+h2{
+  font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.04em;
+  font-size:clamp(24px,4vw,34px);font-weight:600;color:var(--cream);
+  margin:4px 0 16px;padding-bottom:10px;border-bottom:1px solid var(--line);
+}
+h3{
+  font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.12em;
+  font-size:15px;color:var(--gold-soft);font-weight:600;margin:22px 0 8px;
+}
+p{margin-bottom:14px;color:#d8d3c7}
+.lead{font-size:19px;color:var(--cream)}
+strong{color:var(--cream);font-weight:700}
+ul{list-style:none;margin:6px 0 16px}
+li{position:relative;padding-left:26px;margin-bottom:10px;color:#d8d3c7}
+li::before{
+  content:"";position:absolute;left:4px;top:11px;width:8px;height:8px;
+  background:var(--gold);transform:rotate(45deg);
+}
+ol{margin:6px 0 16px 0;padding-left:4px;counter-reset:c;list-style:none}
+ol li{padding-left:38px}
+ol li::before{
+  counter-increment:c;content:counter(c);background:none;transform:none;
+  left:0;top:1px;width:24px;height:24px;border:1px solid var(--gold);
+  color:var(--gold);font-family:'Oswald',sans-serif;font-weight:600;font-size:13px;
+  display:flex;align-items:center;justify-content:center;border-radius:50%;
+}
+
+/* ---- CARDS / TABLES ---- */
+.callout{
+  background:linear-gradient(180deg,var(--steel-2),var(--steel));
+  border:1px solid var(--line);border-left:4px solid var(--gold);
+  padding:20px 22px;border-radius:6px;margin:18px 0;
+}
+.callout .lead{margin:0}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px;border-radius:8px;overflow:hidden}
+th{
+  background:var(--steel-3);color:var(--gold-soft);font-family:'Oswald',sans-serif;
+  text-transform:uppercase;letter-spacing:.08em;font-weight:600;font-size:13px;
+  text-align:left;padding:13px 16px;
+}
+td{padding:13px 16px;border-top:1px solid rgba(255,255,255,.06);color:#d8d3c7}
+tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+.hot td{background:rgba(212,162,58,.10) !important;color:var(--cream);font-weight:600}
+.hot td .big{color:var(--gold);font-size:18px}
+
+/* deal flow strip */
+.deal{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
+.deal .step{
+  background:var(--steel-2);border:1px solid var(--line);border-radius:8px;
+  padding:16px;text-align:center;
+}
+.deal .step .lbl{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.1em;font-size:11px;color:var(--muted)}
+.deal .step .val{font-family:'Oswald',sans-serif;font-size:26px;color:var(--cream);margin-top:4px}
+.deal .step.win{border-color:var(--gold)}
+.deal .step.win .val{color:var(--gold)}
+
+.note{font-size:14px;color:var(--muted);font-style:italic}
+.divider-quote{
+  text-align:center;font-family:'Oswald',sans-serif;text-transform:uppercase;
+  letter-spacing:.08em;font-size:clamp(20px,3.4vw,30px);color:var(--cream);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:34px 0;margin:46px 0 0;
+}
+.divider-quote b{color:var(--gold)}
+
+.sign-row td{height:46px}
+footer{
+  border-top:1px solid var(--line);padding:30px 0 50px;text-align:center;
+  color:var(--muted);font-size:13px;
+}
+footer .fb{font-family:'UnifrakturMaguntia',serif;letter-spacing:.04em;color:var(--gold);font-size:30px;margin-bottom:6px}
+
+@media(max-width:560px){
+  .tabs-inner{justify-content:center}
+  .tab{padding:15px 10px;font-size:12px}
+  header.hero{padding:48px 0 36px}
+}
+</style>
 </head>
 <body>
 
-  <!-- ===== NAV ===== -->
-  <header class="nav">
-    <div class="nav-inner">
-      <div class="nav-logo">
-        <span class="vz-wordmark">Verizon</span>
-        <span class="vz-sub">Wireless</span>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Car Club &bull; Member-Owned Fund</div>
+    <h1 class="brand">Carnal<span>itos</span></h1>
+    <p class="tagline">Little brothers. <em>We build a business we all own.</em></p>
+    <div class="hero-rule"></div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="tabs-inner">
+    <button class="tab active" data-panel="pitch">The Pitch</button>
+    <button class="tab" data-panel="charter">The Charter</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- ============ PITCH ============ -->
+  <div class="panel active" id="pitch">
+
+    <section>
+      <h2>The Idea</h2>
+      <p class="lead">Every member puts in <strong>$50 a month</strong>. That money doesn&rsquo;t sit in a drawer &mdash; it gets put to work.</p>
+      <p>We flip cars, sell food and drinks at shows, and take on whatever money-making ideas the group approves. The profits get split between every member. The bigger we grow the pot, the more everyone earns. You&rsquo;re not paying into someone&rsquo;s pocket &mdash; you&rsquo;re buying into something you co-own.</p>
+    </section>
+
+    <section>
+      <h2>Two Rules That Keep It Honest</h2>
+      <ul>
+        <li><strong>Full transparency.</strong> Everyone can see the total in the kitty at any time. Every dollar in and out is logged.</li>
+        <li><strong>The group decides everything.</strong> No single person controls the money. Spending happens by vote.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>How We Make Money</h2>
+      <p>A member finds a car they can buy and flip. They request funds from the club and lay out the plan. The group votes. If it passes, the club funds it &mdash; and shares the profit.</p>
+      <div class="deal">
+        <div class="step"><div class="lbl">Club funds buy</div><div class="val">$2,400</div></div>
+        <div class="step"><div class="lbl">Sells for</div><div class="val">$5,000</div></div>
+        <div class="step"><div class="lbl">Returned to club</div><div class="val">$4,000</div></div>
+        <div class="step win"><div class="lbl">Club profit</div><div class="val">$1,600</div></div>
+        <div class="step win"><div class="lbl">8 members get</div><div class="val">$200 ea</div></div>
       </div>
-      <a href="tel:9713744888" class="nav-cta">Call Noah</a>
-    </div>
-  </header>
+      <p class="note">Same model powers our shows: the club buys food and drinks with its own funds, sells them, and the profit grows the pot for everyone.</p>
+    </section>
 
-  <!-- ===== HERO ===== -->
-  <section class="hero">
-    <div class="hero-inner">
-      <div class="hero-text">
-        <p class="hero-eyebrow">Your Verizon Specialist</p>
-        <h1 class="hero-name">Noah Robles</h1>
-        <p class="hero-sub">I help people switch to America's most awarded network — fast, easy, and with the best deal available.</p>
-        <div class="hero-actions">
-          <a href="tel:9713744888" class="btn btn-primary">📞 Call or Text Me</a>
-          <a href="#how-to-switch" class="btn btn-outline">See How to Switch</a>
-        </div>
-        <p class="hero-number"><a href="tel:9713744888">(971) 374-4888</a></p>
-      </div>
-      <div class="hero-photo">
-        <div class="photo-frame">
-          <img src="noah.jpg" alt="Noah Robles – Verizon Wireless Specialist" onerror="this.parentElement.classList.add('no-photo')">
-          <div class="photo-fallback">
-            <span class="photo-initials">NR</span>
-          </div>
-        </div>
-        <div class="photo-badge">Verizon Specialist</div>
-      </div>
-    </div>
-  </section>
+    <section>
+      <h2>Joining &amp; Leaving</h2>
+      <ul>
+        <li><strong>Leave on your own</strong> (moving, life happens): get 100% of what you put in back. No profit share.</li>
+        <li><strong>Voted out by the group:</strong> get 50% of what you put in. The majority spoke &mdash; your exit is in shame. The rest stays with the members who stayed.</li>
+      </ul>
+    </section>
 
-  <!-- ===== DEAL BANNER ===== -->
-  <section class="deal-section" id="deal">
-    <div class="container">
-      <p class="section-eyebrow">Limited-Time Offer</p>
-      <h2 class="section-title">Switch &amp; Save Big</h2>
+    <section>
+      <h2>How We Vote</h2>
+      <p>Any member can request funds. They post the amount, what it&rsquo;s for, the expected return, and who&rsquo;s doing the work. Everyone votes instantly. If the group trusts the idea and the profit&rsquo;s there, it passes. We&rsquo;ll run it all through a Discord server so it&rsquo;s fast, fair, and on the record.</p>
+    </section>
 
-      <div class="deal-card">
-        <div class="deal-price-block">
-          <span class="deal-dollar">$</span>
-          <span class="deal-amount">100</span>
-          <span class="deal-per">/mo</span>
-        </div>
-        <div class="deal-divider"></div>
-        <div class="deal-info">
-          <p class="deal-headline">4 Lines · Unlimited Everything</p>
-          <p class="deal-detail">Just <strong>$25/line/mo</strong> with Auto Pay &amp; paper-free billing</p>
-          <div class="deal-pills">
-            <span class="pill red">📱 Free iPhone 17</span>
-            <span class="pill red">📱 Free Galaxy S26</span>
-            <span class="pill">🇲🇽🇨🇦 Mexico &amp; Canada Included</span>
-            <span class="pill">🌍 Intl. Texts to 200+ Countries</span>
-            <span class="pill">📺 Streaming Discounts</span>
-            <span class="pill">🏆 35× J.D. Power Award</span>
-          </div>
-        </div>
-      </div>
+    <div class="divider-quote">It&rsquo;s all about growing the club&rsquo;s funds &mdash; <b>together.</b></div>
+  </div>
 
-      <p class="deal-cta-note">Ready to lock in this deal? <a href="tel:9713744888">Text or call Noah at (971) 374-4888</a> and I'll walk you through everything.</p>
-    </div>
-  </section>
+  <!-- ============ CHARTER ============ -->
+  <div class="panel" id="charter">
 
-  <!-- ===== HOW TO SWITCH ===== -->
-  <section class="switch-section" id="how-to-switch">
-    <div class="container">
-      <p class="section-eyebrow">It's Easier Than You Think</p>
-      <h2 class="section-title">How to Switch to Verizon</h2>
-      <p class="section-sub">Keep your number. Takes less than 10 minutes. Select your current carrier below.</p>
+    <section>
+      <p class="note" style="text-align:center;margin-bottom:30px">The agreement every member reads and signs before joining.</p>
+    </section>
 
-      <!-- Carrier Tabs -->
-      <div class="carrier-tabs">
-        <button class="ctab active" data-carrier="tmobile" onclick="switchCarrier('tmobile', this)">
-          <span class="ctab-dot" style="background:#E20074"></span> T-Mobile
-        </button>
-        <button class="ctab" data-carrier="att" onclick="switchCarrier('att', this)">
-          <span class="ctab-dot" style="background:#00A8E0"></span> AT&amp;T
-        </button>
-        <button class="ctab" data-carrier="other" onclick="switchCarrier('other', this)">
-          <span class="ctab-dot" style="background:#888"></span> Other Carrier
-        </button>
-      </div>
+    <section>
+      <div class="sec-num">SECTION 01</div>
+      <h2>Mission</h2>
+      <p>Carnalitos is a member-owned car club and investment fund. Members pool money each month and put it to work &mdash; flipping cars, selling food and drinks at shows, and other group-approved ventures &mdash; to grow a shared pot that benefits everyone. Decisions are made by the group, and the books are open to all members at all times.</p>
+    </section>
 
-      <!-- T-Mobile Panel -->
-      <div class="carrier-panel" id="panel-tmobile">
-        <div class="steps-grid">
-          <div class="steps-col">
-            <div class="steps-col-label before-label">Before You Visit</div>
-            <div class="step-card">
-              <div class="step-num">1</div>
-              <div class="step-body">
-                <h3>Get Your T-Mobile Transfer PIN</h3>
-                <ul class="step-notes">
-                  <li>Open the <strong>T-Life app</strong> on your phone</li>
-                  <li>Tap <strong>Profile</strong> → <strong>Permissions &amp; Controls</strong></li>
-                  <li>Tap <strong>Transfer PIN</strong> and generate your PIN</li>
-                  <li>Or call T-Mobile at <a href="tel:18006666161" class="step-link">1-800-666-6161</a> and ask for your Transfer PIN</li>
-                </ul>
-              </div>
-            </div>
-            <div class="step-card">
-              <div class="step-num">2</div>
-              <div class="step-body">
-                <h3>Find Your T-Mobile Account Number</h3>
-                <ul class="step-notes">
-                  <li>In the T-Life app: <strong>Account</strong> → <strong>Account Info</strong></li>
-                  <li>Or check your monthly bill — it's printed at the top</li>
-                  <li>It's a 9-digit number, <em>not</em> your phone number</li>
-                </ul>
-              </div>
-            </div>
-            <div class="step-card warn">
-              <div class="step-num">3</div>
-              <div class="step-body">
-                <h3>Do NOT Cancel T-Mobile Yet</h3>
-                <p class="step-note">Keep your T-Mobile account active. Verizon handles the cancellation automatically once your number transfers.</p>
-              </div>
-            </div>
-          </div>
-          <div class="steps-col">
-            <div class="steps-col-label at-store-label">At Verizon (In-Store or Online)</div>
-            <div class="step-card">
-              <div class="step-num">4</div>
-              <div class="step-body">
-                <h3>Choose Your Plan &amp; Free Phone</h3>
-                <p class="step-note">Ask about the <strong>4 lines for $100 Unlimited Welcome</strong> deal. You can also bring your existing phone if it's unlocked.</p>
-              </div>
-            </div>
-            <div class="step-card">
-              <div class="step-num">5</div>
-              <div class="step-body">
-                <h3>Provide Your Info to Verizon</h3>
-                <ul class="step-notes">
-                  <li>Your T-Mobile <strong>phone number</strong></li>
-                  <li>Your T-Mobile <strong>account number</strong></li>
-                  <li>Your T-Mobile <strong>Transfer PIN</strong></li>
-                </ul>
-                <p class="step-note" style="margin-top:6px">Transfer is usually instant to a few hours.</p>
-              </div>
-            </div>
-            <div class="step-card tip">
-              <div class="step-icon">⚠️</div>
-              <div class="step-body">
-                <h3>T-Mobile May Push Back</h3>
-                <p class="step-note">T-Mobile reps are trained to retain you. You are <strong>not required to explain</strong> — just say <em>"I need my Transfer PIN, please."</em> That's it.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <section>
+      <div class="sec-num">SECTION 02</div>
+      <h2>Membership</h2>
+      <ul>
+        <li><strong>Monthly contribution:</strong> $50 per member, due on the same date each month.</li>
+        <li><strong>Tracking:</strong> each member&rsquo;s total contributions are tracked individually and visible to all.</li>
+        <li><strong>New members:</strong> admitted by group vote. A new member&rsquo;s profit share begins only from their join date forward.</li>
+        <li><strong>Missed payments:</strong> miss two months in a row and you lose voting rights until caught up; the group may vote to remove you.</li>
+      </ul>
+    </section>
 
-      <!-- AT&T Panel -->
-      <div class="carrier-panel hidden" id="panel-att">
-        <div class="steps-grid">
-          <div class="steps-col">
-            <div class="steps-col-label before-label">Before You Visit</div>
-            <div class="step-card">
-              <div class="step-num">1</div>
-              <div class="step-body">
-                <h3>Get Your AT&amp;T Transfer PIN</h3>
-                <ul class="step-notes">
-                  <li>Easiest way: Dial <a href="tel:*PORT" class="step-link"><strong>*PORT</strong></a> from your AT&amp;T phone — you'll receive a PIN via text</li>
-                  <li>Or log in to <strong>att.com</strong> → My Account → Port Out / Transfer</li>
-                  <li>Or call AT&amp;T at <a href="tel:18003310500" class="step-link">1-800-331-0500</a> and request a Number Transfer PIN</li>
-                </ul>
-              </div>
-            </div>
-            <div class="step-card">
-              <div class="step-num">2</div>
-              <div class="step-body">
-                <h3>Find Your AT&amp;T Account Number</h3>
-                <ul class="step-notes">
-                  <li>Log in to <strong>att.com</strong> → Profile → Account Info</li>
-                  <li>Or find it on your paper/PDF bill (top section)</li>
-                  <li>AT&amp;T account numbers are typically 9–12 digits</li>
-                </ul>
-              </div>
-            </div>
-            <div class="step-card warn">
-              <div class="step-num">3</div>
-              <div class="step-body">
-                <h3>Do NOT Cancel AT&amp;T Yet</h3>
-                <p class="step-note">Leave your AT&amp;T account open. Once the port completes, AT&amp;T will bill you only through your final day of service.</p>
-              </div>
-            </div>
-          </div>
-          <div class="steps-col">
-            <div class="steps-col-label at-store-label">At Verizon (In-Store or Online)</div>
-            <div class="step-card">
-              <div class="step-num">4</div>
-              <div class="step-body">
-                <h3>Choose Your Plan &amp; Free Phone</h3>
-                <p class="step-note">Ask about the <strong>4 lines for $100 Unlimited Welcome</strong> deal. AT&amp;T phones are usually unlocked after 60 days — you may be able to bring yours.</p>
-              </div>
-            </div>
-            <div class="step-card">
-              <div class="step-num">5</div>
-              <div class="step-body">
-                <h3>Provide Your Info to Verizon</h3>
-                <ul class="step-notes">
-                  <li>Your AT&amp;T <strong>phone number</strong></li>
-                  <li>Your AT&amp;T <strong>account number</strong></li>
-                  <li>Your AT&amp;T <strong>Transfer PIN</strong></li>
-                </ul>
-                <p class="step-note" style="margin-top:6px">Transfer is usually instant to a few hours.</p>
-              </div>
-            </div>
-            <div class="step-card tip">
-              <div class="step-icon">⚠️</div>
-              <div class="step-body">
-                <h3>AT&amp;T May Offer Retention Deals</h3>
-                <p class="step-note">AT&amp;T agents may offer discounts to keep you. If you've already decided — just ask for your Transfer PIN and stay focused.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <section>
+      <div class="sec-num">SECTION 03</div>
+      <h2>The Money: Two Pools</h2>
+      <p>To keep exits and payouts fair, the club separates money into two pools:</p>
+      <ul>
+        <li><strong>Contributions</strong> &mdash; the money each member personally paid in.</li>
+        <li><strong>Profits</strong> &mdash; everything the club earned on top through investments and sales.</li>
+      </ul>
+      <p class="note">The kitty balance (both pools combined) is visible to every member at all times.</p>
+    </section>
 
-      <!-- Other Carrier Panel -->
-      <div class="carrier-panel hidden" id="panel-other">
-        <div class="steps-grid">
-          <div class="steps-col">
-            <div class="steps-col-label before-label">Before You Visit</div>
-            <div class="step-card">
-              <div class="step-num">1</div>
-              <div class="step-body">
-                <h3>Get Your Transfer / Number Port PIN</h3>
-                <ul class="step-notes">
-                  <li><strong>Cricket:</strong> Log in to mycricket.com → My Account → Transfer PIN</li>
-                  <li><strong>Boost / Dish:</strong> Call <a href="tel:18885026633" class="step-link">1-888-502-6633</a> or log in to your account</li>
-                  <li><strong>Metro by T-Mobile:</strong> Call <a href="tel:18882630000" class="step-link">1-888-863-8768</a> and ask for your Transfer PIN</li>
-                  <li><strong>US Mobile / Mint / Visible:</strong> Log in to your account online → Port Out / Transfer section</li>
-                  <li><strong>Any other carrier:</strong> Call their customer service and say: <em>"I need my Number Transfer PIN so I can port my number to another carrier."</em></li>
-                </ul>
-              </div>
-            </div>
-            <div class="step-card">
-              <div class="step-num">2</div>
-              <div class="step-body">
-                <h3>Find Your Account Number</h3>
-                <p class="step-note">Check your monthly bill or log in to your carrier's app/website → Account Info. It's usually 9–12 digits and <em>not</em> your phone number.</p>
-              </div>
-            </div>
-            <div class="step-card warn">
-              <div class="step-num">3</div>
-              <div class="step-body">
-                <h3>Do NOT Cancel Your Plan Yet</h3>
-                <p class="step-note">Keep your current plan active until your number has fully transferred to Verizon. Canceling early can result in losing your number permanently.</p>
-              </div>
-            </div>
-          </div>
-          <div class="steps-col">
-            <div class="steps-col-label at-store-label">At Verizon (In-Store or Online)</div>
-            <div class="step-card">
-              <div class="step-num">4</div>
-              <div class="step-body">
-                <h3>Choose Your Plan &amp; Free Phone</h3>
-                <p class="step-note">Ask about the <strong>4 lines for $100 Unlimited Welcome</strong> deal. Unlocked phones from other carriers are usually compatible with Verizon's network.</p>
-              </div>
-            </div>
-            <div class="step-card">
-              <div class="step-num">5</div>
-              <div class="step-body">
-                <h3>Provide Your Info to Verizon</h3>
-                <ul class="step-notes">
-                  <li>Your current <strong>phone number</strong></li>
-                  <li>Your current carrier's <strong>account number</strong></li>
-                  <li>Your <strong>Transfer / Port-Out PIN</strong></li>
-                </ul>
-                <p class="step-note" style="margin-top:6px">Verizon handles everything. Transfer usually takes minutes to a few hours.</p>
-              </div>
-            </div>
-            <div class="step-card tip">
-              <div class="step-icon">⚠️</div>
-              <div class="step-body">
-                <h3>Watch Out for Pushback</h3>
-                <p class="step-note">Your carrier may try to talk you out of leaving. You are <strong>not required to explain</strong> — just say <em>"I need my Transfer PIN, please."</em> They must provide it by FCC regulations.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <section>
+      <div class="sec-num">SECTION 04</div>
+      <h2>Leaving the Club</h2>
+      <table>
+        <thead><tr><th>Situation</th><th>Contributions back</th><th>Profit share</th></tr></thead>
+        <tbody>
+          <tr><td>Leave voluntarily (move, personal reasons)</td><td><strong>100%</strong></td><td>None</td></tr>
+          <tr class="hot"><td>Voted out / kicked by the group</td><td><span class="big">50%</span></td><td>None</td></tr>
+        </tbody>
+      </table>
+      <ul>
+        <li>A member who leaves on their own gets back everything they put in, but forfeits any share of profits not yet paid out.</li>
+        <li>A member voted out keeps only 50% of their contributions. The forfeited 50% remains in the club for the members who stayed. This is the cost of an exit by majority vote.</li>
+        <li>Money already paid out in past profit splits is theirs to keep and is never clawed back.</li>
+      </ul>
+    </section>
 
-      <div class="card-cta-row">
-        <p>Want a printable version of these steps to take with you?</p>
-        <a href="switch-card.html" target="_blank" class="btn btn-primary">🖨️ Print the Switch Card</a>
-      </div>
-    </div>
-  </section>
+    <section>
+      <div class="sec-num">SECTION 05</div>
+      <h2>Investments &amp; Fund Requests</h2>
+      <p>Any member may request funds from the club to make money for the club. Every request must include:</p>
+      <ol>
+        <li><strong>Amount requested</strong> (e.g., $2,400).</li>
+        <li><strong>Purpose</strong> &mdash; exactly what the money buys.</li>
+        <li><strong>Expected return</strong> &mdash; what gets returned to the club and the projected profit.</li>
+        <li><strong>Timeline</strong> &mdash; when the funds and profit come back.</li>
+        <li><strong>Who does the work</strong> and what happens if the plan fails.</li>
+      </ol>
+      <h3>Worked Example</h3>
+      <div class="callout"><p class="lead">A member requests $2,400 to buy and fix up a car, planning to sell it for $5,000 and return $4,000 to the club. The club nets <strong>$1,600 profit</strong>. With 8 members, that&rsquo;s <strong>$200 each</strong>.</p></div>
+      <h3>Risk Rules</h3>
+      <ul>
+        <li><strong>Skin in the game:</strong> the requesting member contributes a portion of the buy (suggested 20%); the club funds the rest. Losses are shared in the same ratio. This keeps requests honest.</li>
+        <li><strong>Labor cut (optional, group decides):</strong> the member doing the hands-on work may take an agreed cut of the profit off the top before the even split, since flipping is real work.</li>
+        <li><strong>Concentration cap:</strong> no single investment may use more than 40% of the kitty. We never bet the whole pot on one deal.</li>
+      </ul>
+    </section>
 
-  <!-- ===== WHY VERIZON ===== -->
-  <section class="why-section" id="why-verizon">
-    <div class="container">
-      <p class="section-eyebrow">The Honest Case for Switching</p>
-      <h2 class="section-title">Why Verizon Beats the Competition</h2>
-      <p class="section-sub">Not marketing — independently tested and verified facts.</p>
+    <section>
+      <div class="sec-num">SECTION 06</div>
+      <h2>Club Events &amp; Sales</h2>
+      <p>The same model funds our shows. The club uses its own funds to buy food, drinks, and supplies, sells them at events, and the profit flows back into the pot. Any member can propose an event purchase using the same fund-request process.</p>
+    </section>
 
-      <!-- Top stat bar -->
-      <div class="stat-bar">
-        <div class="stat-item">
-          <span class="stat-num">35×</span>
-          <span class="stat-label">J.D. Power Network Quality Awards — consecutive</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat-item">
-          <span class="stat-num">99%</span>
-          <span class="stat-label">of the U.S. population covered</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat-item">
-          <span class="stat-num">280M+</span>
-          <span class="stat-label">people reached by 5G Ultra Wideband</span>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat-item">
-          <span class="stat-num">#1</span>
-          <span class="stat-label">Best, Fastest &amp; Most Reliable 5G — RootMetrics</span>
-        </div>
-      </div>
+    <section>
+      <div class="sec-num">SECTION 07</div>
+      <h2>Voting</h2>
+      <ul>
+        <li><strong>Where:</strong> all proposals and votes happen in the club Discord server so everything is fast and on the record.</li>
+        <li><strong>Spending money:</strong> requires a two-thirds (2/3) majority of voting members to pass.</li>
+        <li><strong>Removing a member or changing the charter:</strong> also requires a two-thirds majority.</li>
+        <li><strong>Quorum:</strong> at least 75% of members must cast a vote for the result to count.</li>
+        <li><strong>Time limit:</strong> proposals stay open for 48 hours, then voting closes.</li>
+        <li><strong>Open floor:</strong> any member can bring a suggestion. The group decides everything as a whole.</li>
+      </ul>
+    </section>
 
-      <!-- Reason cards -->
-      <div class="why-grid">
+    <section>
+      <div class="sec-num">SECTION 08</div>
+      <h2>Money Handling &amp; Trust</h2>
+      <ul>
+        <li><strong>Where it&rsquo;s held:</strong> club funds sit in a shared/transparent account, not in any one person&rsquo;s pocket.</li>
+        <li><strong>Open books:</strong> every deposit, withdrawal, and balance is logged and viewable by all members at any time.</li>
+        <li><strong>Roles:</strong> where possible, the person who holds the money (treasurer) is separate from the person who leads, so no one controls both.</li>
+      </ul>
+    </section>
 
-        <div class="why-card">
-          <div class="why-icon">📡</div>
-          <h3>Network Reliability Is Verizon's Crown Jewel</h3>
-          <p>Verizon has earned <strong>35 consecutive J.D. Power awards</strong> for Network Quality and holds top rankings from RootMetrics for overall network performance in over 100 cities. No other carrier comes close.</p>
-          <div class="quote-block">
-            <p>"You can switch to save money anywhere — but Verizon is the only carrier independently ranked #1 for network quality 35 times in a row. That's not marketing, that's science."</p>
-          </div>
-        </div>
+    <section>
+      <div class="sec-num">SECTION 09</div>
+      <h2>Profit Splits</h2>
+      <ul>
+        <li><strong>When:</strong> the group votes on when to distribute profits versus reinvest them to keep growing the pot.</li>
+        <li><strong>How:</strong> the default is an even split among active members. The group may choose to weight splits by how long or how much each member has contributed, decided by vote.</li>
+      </ul>
+    </section>
 
-        <div class="why-card">
-          <div class="why-icon">🗺️</div>
-          <h3>Rural &amp; Suburban Coverage Dominance</h3>
-          <p>Verizon covers <strong>59% of U.S. landmass with 4G LTE</strong> — T-Mobile covers just 43%. Whether you're in the city, on a road trip, camping, or visiting family in a small town, Verizon keeps working.</p>
-          <div class="quote-block">
-            <p>"If you ever drive outside the city, go camping, or visit family in a small town — Verizon is the one that keeps working. T-Mobile has great city coverage but falls off fast once you hit rural areas."</p>
-          </div>
-        </div>
+    <section>
+      <div class="sec-num">SECTION 10</div>
+      <h2>Legal &amp; Tax Note</h2>
+      <p>Pooling money to invest and sharing profits can create tax and legal obligations, and the specifics vary by state. Profits may count as taxable income, and the group should consider a written operating agreement or an LLC to protect everyone. Before the club holds significant money, the group should get a one-time consultation with a small-business attorney or accountant. This charter is a member agreement, not legal or financial advice.</p>
+    </section>
 
-        <div class="why-card">
-          <div class="why-icon">⚡</div>
-          <h3>5G Ultra Wideband — The Real 5G</h3>
-          <p>Verizon's 5G Ultra Wideband delivers blazing speeds and ultra-low latency. It won awards for <strong>Best 5G, Fastest 5G, AND Most Reliable 5G</strong> — earning 874 Metro Area RootScore Awards, 70% more than its closest competitor.</p>
-          <div class="quote-block">
-            <p>"T-Mobile brags about 5G coverage, but Verizon's 5G Ultra Wideband is the fastest AND most reliable. There's a difference between having 5G and having GOOD 5G."</p>
-          </div>
-        </div>
+    <section>
+      <div class="sec-num">SECTION 11</div>
+      <h2>Amendments</h2>
+      <p>This charter can be changed by a two-thirds vote of members. Any approved change is recorded with the date and applies going forward.</p>
+    </section>
 
-        <div class="why-card">
-          <div class="why-icon">🚨</div>
-          <h3>Good Enough for First Responders</h3>
-          <p>Emergency services, 911 dispatch, and first responders rely on Verizon's network. The 5G Ultra Wideband is built with the security and reliability required to power critical infrastructure.</p>
-          <div class="quote-block">
-            <p>"First responders and emergency services run on Verizon. If it's good enough for 911, it's good enough for you."</p>
-          </div>
-        </div>
+    <section>
+      <div class="sec-num">SECTION 12</div>
+      <h2>Agreement</h2>
+      <p>By signing below, the member confirms they have read, understood, and agreed to this charter, including the contribution amount, the exit rules, and the voting process.</p>
+      <table>
+        <thead><tr><th>Member Name</th><th>Signature</th><th>Date</th></tr></thead>
+        <tbody>
+          <tr class="sign-row"><td></td><td></td><td></td></tr>
+          <tr class="sign-row"><td></td><td></td><td></td></tr>
+          <tr class="sign-row"><td></td><td></td><td></td></tr>
+          <tr class="sign-row"><td></td><td></td><td></td></tr>
+          <tr class="sign-row"><td></td><td></td><td></td></tr>
+          <tr class="sign-row"><td></td><td></td><td></td></tr>
+          <tr class="sign-row"><td></td><td></td><td></td></tr>
+          <tr class="sign-row"><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
 
-      </div>
+</main>
 
-      <!-- Comparison table -->
-      <div class="compare-wrap">
-        <h3 class="compare-title">Quick Comparison</h3>
-        <div class="compare-table">
-          <div class="compare-row compare-header">
-            <div class="compare-cell label-cell"></div>
-            <div class="compare-cell vz-cell">Verizon</div>
-            <div class="compare-cell tm-cell">T-Mobile</div>
-            <div class="compare-cell att-cell">AT&amp;T</div>
-          </div>
-          <div class="compare-row">
-            <div class="compare-cell label-cell">Rural Coverage</div>
-            <div class="compare-cell vz-cell winner">Best ✅</div>
-            <div class="compare-cell tm-cell">Weakest</div>
-            <div class="compare-cell att-cell">Good</div>
-          </div>
-          <div class="compare-row">
-            <div class="compare-cell label-cell">5G Reliability</div>
-            <div class="compare-cell vz-cell winner">#1 Awarded ✅</div>
-            <div class="compare-cell tm-cell">Wide but slower</div>
-            <div class="compare-cell att-cell">Middle</div>
-          </div>
-          <div class="compare-row">
-            <div class="compare-cell label-cell">J.D. Power Awards</div>
-            <div class="compare-cell vz-cell winner">35× ✅</div>
-            <div class="compare-cell tm-cell">Fewer</div>
-            <div class="compare-cell att-cell">Fewer</div>
-          </div>
-          <div class="compare-row">
-            <div class="compare-cell label-cell">4G LTE Landmass</div>
-            <div class="compare-cell vz-cell winner">59% ✅</div>
-            <div class="compare-cell tm-cell">43%</div>
-            <div class="compare-cell att-cell">58%</div>
-          </div>
-          <div class="compare-row">
-            <div class="compare-cell label-cell">Stadiums &amp; Crowds</div>
-            <div class="compare-cell vz-cell winner">Handles it best ✅</div>
-            <div class="compare-cell tm-cell">Can struggle</div>
-            <div class="compare-cell att-cell">Moderate</div>
-          </div>
-        </div>
-      </div>
+<footer>
+  <div class="wrap">
+    <div class="fb">Carnalitos</div>
+    Car Club &bull; Member-Owned Fund &mdash; grow the pot, together.
+  </div>
+</footer>
 
-      <div class="why-cta">
-        <p>Ready to make the switch? I'll make it easy.</p>
-        <a href="tel:9713744888" class="btn btn-primary">📞 Call Noah — (971) 374-4888</a>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ===== CONTACT ===== -->
-  <section class="contact-section" id="contact">
-    <div class="container">
-      <div class="contact-card">
-        <div class="contact-text">
-          <p class="section-eyebrow">Have Questions?</p>
-          <h2 class="contact-title">Reach Out to Noah</h2>
-          <p class="contact-sub">I'm available to answer any questions about switching, the deals, or your current plan. No pressure, just honest help.</p>
-        </div>
-        <div class="contact-actions">
-          <a href="tel:9713744888" class="contact-btn call-btn">
-            <span class="contact-icon">📞</span>
-            <span class="contact-label">
-              <strong>Call Me</strong>
-              <span>(971) 374-4888</span>
-            </span>
-          </a>
-          <a href="sms:9713744888" class="contact-btn text-btn">
-            <span class="contact-icon">💬</span>
-            <span class="contact-label">
-              <strong>Text Me</strong>
-              <span>(971) 374-4888</span>
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-inner">
-        <div class="footer-logo">
-          <span class="vz-wordmark">Verizon</span>
-          <span class="vz-sub">Wireless</span>
-        </div>
-        <p class="footer-name">Noah Robles · Independent Sales Representative</p>
-        <p class="footer-disclaimer">Offers subject to change. Taxes and fees apply. Requires qualifying plan and port-in of eligible number.</p>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    function switchCarrier(carrier, btn) {
-      document.querySelectorAll('.ctab').forEach(t => t.classList.remove('active'));
-      btn.classList.add('active');
-      document.querySelectorAll('.carrier-panel').forEach(p => p.classList.add('hidden'));
-      document.getElementById('panel-' + carrier).classList.remove('hidden');
-    }
-  </script>
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.panel');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.panel;
+      tabs.forEach(t => t.classList.toggle('active', t === tab));
+      panels.forEach(p => p.classList.toggle('active', p.id === target));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
 </body>
 </html>

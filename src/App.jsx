@@ -20,10 +20,10 @@ const RULES = {
 
 // Credibility tiers — drive vote weight and how a case loads
 const TIERS = [
-  { name: "Unproven", min: 0,  weight: 1.0,  color: "#6b7280" },
-  { name: "Trusted",  min: 60, weight: 1.5,  color: "#3b9c6e" },
-  { name: "Sheriff",  min: 78, weight: 2.0,  color: "#c08a2e" },
-  { name: "Marshal",  min: 92, weight: 3.0,  color: "#b8472f" },
+  { name: "Unproven", min: 0,  weight: 1.0,  color: "#4a7a9b" },
+  { name: "Trusted",  min: 60, weight: 1.5,  color: "#00e676" },
+  { name: "Sheriff",  min: 78, weight: 2.0,  color: "#f5c400" },
+  { name: "Marshal",  min: 92, weight: 3.0,  color: "#00c2ff" },
 ];
 const tierFor = (c) => [...TIERS].reverse().find((t) => c >= t.min) || TIERS[0];
 
@@ -77,9 +77,9 @@ const SEED_CASES = [
 /* ----------------------- HELPERS ------------------------- */
 const net = (c) => c.guilty - c.notGuilty;
 const STATUS_META = {
-  verified:  { label: "VERIFIED — YELLA", color: "#b8472f" },
-  open:      { label: "ON TRIAL", color: "#c08a2e" },
-  dismissed: { label: "DISMISSED", color: "#6b7280" },
+  verified:  { label: "VERIFIED — YELLA", color: "#f5c400" },
+  open:      { label: "ON TRIAL", color: "#00c2ff" },
+  dismissed: { label: "DISMISSED", color: "#4a7a9b" },
 };
 
 /* ======================= APP ============================= */
@@ -173,16 +173,17 @@ function Home({ cases, setRoute }) {
       <section style={S.hero}>
         <div style={S.heroBrand}>EST. BY bitethatthing · A COMMUNITY TRIBUNAL</div>
         <h1 style={S.heroTitle}>
-          They hide their names<br />because they&apos;re <span style={S.heroAccent}>ashamed.</span>
+          Catch a cheatin&apos;<br /><span style={S.heroAccent}>cho-mo.</span><br />Earn rewards.
         </h1>
         <p style={S.heroSub}>
-          Aimbotters and wallhackers go anonymous on purpose. Pull the name from the replay,
-          bring the evidence, and let the community render a verdict. Get it right and your word
-          carries weight. Lie about an honest player and you&apos;re the one on trial.
+          Aimbotters hide behind fake names because they know what they are.
+          Pull their real name from the replay, bring the receipts, and let the community
+          brand them YELLA. Every verified catch builds your rep — Unproven to Marshal,
+          your word carries more weight with every cho-mo you expose.
         </p>
         <div style={S.heroBtns}>
           <button className="btn-primary" style={S.btnPrimaryLg} onClick={() => setRoute({ name: "report" })}>
-            Expose a cheater
+            Expose a cho-mo
           </button>
           <button className="btn-ghost" style={S.btnGhostLg} onClick={() => setRoute({ name: "wall" })}>
             See the Wall of Yella →
@@ -199,10 +200,10 @@ function Home({ cases, setRoute }) {
       <section style={S.creed}>
         <h2 style={S.creedTitle}>The deal</h2>
         <div style={S.creedGrid}>
-          <Creed n="01" title="Bring the receipts" body="No evidence, no case. A replay screenshot of the real name, a clip, a stat that can't happen clean — something." />
-          <Creed n="02" title="The community judges" body="Other players vote guilty or not-guilty. Reach the threshold and the verdict sticks. One vote per person." />
-          <Creed n="03" title="Reputation is earned" body="Win cases and your credibility climbs. Trusted, Sheriff, Marshal — your future reports start ahead." />
-          <Creed n="04" title="Lying is worse than cheating" body="Bearing false witness on an honest player is the one sin we don't forgive. Do it on purpose and you're voted off — for good." />
+          <Creed n="01" title="Catch the cho-mo" body="Pull their real name from the replay. No evidence, no case — bring a clip, a screenshot, a stat that can't happen clean." />
+          <Creed n="02" title="The community judges" body="Players vote guilty or not-guilty. Hit the threshold and the verdict is permanent. One vote per person, no ballot stuffing." />
+          <Creed n="03" title="Earn your rewards" body="Every verified catch levels up your rep. Unproven → Trusted → Sheriff → Marshal. Your word carries more weight with each one." />
+          <Creed n="04" title="False reports get you cooked" body="Accuse a clean player on purpose and you go on trial yourself. Three strikes and the community votes you out — for good." />
         </div>
       </section>
     </>
@@ -283,7 +284,7 @@ function CaseCard({ c, onClick }) {
       <div style={S.cardFoot}>
         <span style={S.evCount}>{c.evidence.length} piece{c.evidence.length !== 1 ? "s" : ""} of evidence</span>
         <span style={S.voteMini}>
-          <span style={{ color: "#b8472f" }}>{c.guilty} guilty</span> · <span style={{ color: "#3b9c6e" }}>{c.notGuilty} clear</span>
+          <span style={{ color: "#00c2ff" }}>{c.guilty} guilty</span> · <span style={{ color: "#00e676" }}>{c.notGuilty} clear</span>
         </span>
       </div>
       <div style={S.cardReporter}>
@@ -315,7 +316,7 @@ function CaseView({ c, voted, castVote, setRoute }) {
           <div style={S.caseReal}>
             {c.realName.startsWith("unknown")
               ? <span style={S.hiddenName}>Real name not yet pulled from replay</span>
-              : <>Real name exposed: <strong style={{ color: "#b8472f" }}>{c.realName}</strong></>}
+              : <>Real name exposed: <strong style={{ color: "#f5c400" }}>{c.realName}</strong></>}
           </div>
         </div>
         <div style={S.caseFiledBox}>
@@ -349,11 +350,11 @@ function CaseView({ c, voted, castVote, setRoute }) {
           <div style={{ ...S.tallyClear, width: `${100 - guiltyPct}%` }} />
         </div>
         <div style={S.tallyNums}>
-          <span style={{ color: "#b8472f", fontWeight: 800 }}>{c.guilty} guilty</span>
+          <span style={{ color: "#00c2ff", fontWeight: 800 }}>{c.guilty} guilty</span>
           <span style={{ color: "#6b7280" }}>
             {c.status === "open" ? `${toVerify} net votes from VERIFIED` : meta.label}
           </span>
-          <span style={{ color: "#3b9c6e", fontWeight: 800 }}>{c.notGuilty} clear</span>
+          <span style={{ color: "#00e676", fontWeight: 800 }}>{c.notGuilty} clear</span>
         </div>
       </div>
 
@@ -589,179 +590,183 @@ function Footer({ setRoute }) {
 }
 
 /* ======================= STYLES ========================= */
-const ink = "#12100e", paper = "#f4f0e6", line = "#d8d0bd";
-const blood = "#b8472f", gold = "#c08a2e", green = "#3b9c6e", yella = "#e8c33b";
+const ink = "#e8f0fe", paper = "#0d1b2a", line = "#1e3a5f";
+const blood = "#00c2ff", gold = "#f5c400", green = "#00e676", yella = "#f5c400";
+
+const card_bg  = "#0a1628";
+const card_border = "#1a3a6a";
 
 const S = {
   app: { background: paper, color: ink, minHeight: "100vh", fontFamily: "'Inter', system-ui, sans-serif" },
   main: { maxWidth: 1080, margin: "0 auto", padding: "0 20px" },
 
   nav: { position: "sticky", top: 0, zIndex: 20, display: "flex", alignItems: "center", gap: 16,
-    padding: "12px 20px", background: "rgba(244,240,230,0.92)", backdropFilter: "blur(8px)",
-    borderBottom: `2px solid ${ink}`, flexWrap: "wrap" },
+    padding: "12px 20px", background: "rgba(10,22,40,0.96)", backdropFilter: "blur(10px)",
+    borderBottom: `2px solid ${blood}`, flexWrap: "wrap" },
   brand: { display: "flex", alignItems: "center", gap: 8, background: "none", border: "none", cursor: "pointer", padding: 0 },
   logoMark: { width: 28, height: 28, objectFit: "contain" },
-  brandText: { fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: 22, letterSpacing: "-0.5px", color: ink },
+  brandText: { fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: 22, letterSpacing: "-0.5px", color: blood, textShadow: `0 0 12px ${blood}` },
   navItems: { display: "flex", gap: 4, marginLeft: 8 },
   navlink: { background: "none", border: "none", cursor: "pointer", font: "inherit", fontSize: 14, fontWeight: 600,
-    color: "#5a5448", padding: "6px 10px", borderRadius: 6 },
-  navlinkActive: { color: ink, background: "rgba(0,0,0,0.06)" },
+    color: "#7ba7d4", padding: "6px 10px", borderRadius: 6 },
+  navlinkActive: { color: blood, background: "rgba(0,194,255,0.1)" },
   navRight: { marginLeft: "auto", display: "flex", alignItems: "center", gap: 12 },
-  credPill: { display: "flex", alignItems: "center", gap: 6, padding: "4px 10px", border: `1px solid ${line}`, borderRadius: 99, background: "#fff" },
+  credPill: { display: "flex", alignItems: "center", gap: 6, padding: "4px 10px", border: `1px solid ${card_border}`, borderRadius: 99, background: card_bg },
   tierDot: { width: 8, height: 8, borderRadius: 99, display: "inline-block" },
   credName: { fontSize: 13, fontWeight: 600 },
   tierLabel: { fontSize: 12, fontWeight: 700 },
 
-  btnPrimary: { background: blood, color: "#fff", border: "none", borderRadius: 8, padding: "9px 16px",
-    fontWeight: 700, fontSize: 14, cursor: "pointer", fontFamily: "inherit" },
-  btnPrimaryLg: { background: blood, color: "#fff", border: "none", borderRadius: 8, padding: "14px 24px",
-    fontWeight: 700, fontSize: 16, cursor: "pointer", fontFamily: "inherit" },
-  btnGhost: { background: "none", color: ink, border: `1.5px solid ${ink}`, borderRadius: 8, padding: "8px 14px",
+  btnPrimary: { background: blood, color: "#001a2c", border: "none", borderRadius: 8, padding: "9px 16px",
+    fontWeight: 800, fontSize: 14, cursor: "pointer", fontFamily: "inherit", textTransform: "uppercase", letterSpacing: "0.5px" },
+  btnPrimaryLg: { background: blood, color: "#001a2c", border: "none", borderRadius: 8, padding: "14px 28px",
+    fontWeight: 800, fontSize: 16, cursor: "pointer", fontFamily: "inherit", textTransform: "uppercase", letterSpacing: "0.5px" },
+  btnGhost: { background: "none", color: ink, border: `1.5px solid ${card_border}`, borderRadius: 8, padding: "8px 14px",
     fontWeight: 600, fontSize: 14, cursor: "pointer", fontFamily: "inherit" },
   btnGhostLg: { background: "none", color: ink, border: `1.5px solid ${ink}`, borderRadius: 8, padding: "13px 22px",
     fontWeight: 700, fontSize: 16, cursor: "pointer", fontFamily: "inherit" },
 
-  hero: { padding: "72px 0 48px", maxWidth: 760 },
-  heroBrand: { fontSize: 12, fontWeight: 700, letterSpacing: "2px", color: gold, marginBottom: 20, fontFamily: "'Oswald', sans-serif" },
-  heroTitle: { fontFamily: "'Oswald', sans-serif", fontSize: "clamp(40px, 7vw, 72px)", lineHeight: 0.98,
-    fontWeight: 700, letterSpacing: "-1.5px", margin: "0 0 24px" },
-  heroAccent: { color: blood },
-  heroSub: { fontSize: 18, lineHeight: 1.6, color: "#4a443a", maxWidth: 620, margin: "0 0 32px" },
+  hero: { padding: "72px 0 48px", maxWidth: 780 },
+  heroBrand: { fontSize: 12, fontWeight: 700, letterSpacing: "3px", color: blood, marginBottom: 20, fontFamily: "'Oswald', sans-serif", textShadow: `0 0 8px ${blood}` },
+  heroTitle: { fontFamily: "'Oswald', sans-serif", fontSize: "clamp(38px, 7vw, 78px)", lineHeight: 0.95,
+    fontWeight: 700, letterSpacing: "-1px", margin: "0 0 24px", color: "#ffffff" },
+  heroAccent: { color: gold, textShadow: `0 0 20px ${gold}88` },
+  heroSub: { fontSize: 18, lineHeight: 1.6, color: "#7ba7d4", maxWidth: 620, margin: "0 0 32px" },
   heroBtns: { display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 56 },
   statRow: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 24,
-    borderTop: `2px solid ${ink}`, paddingTop: 28 },
+    borderTop: `2px solid ${card_border}`, paddingTop: 28 },
   stat: {},
-  statNum: { fontFamily: "'Oswald', sans-serif", fontSize: 34, fontWeight: 700, lineHeight: 1 },
-  statLabel: { fontSize: 13, color: "#5a5448", marginTop: 4, textTransform: "uppercase", letterSpacing: "0.5px" },
+  statNum: { fontFamily: "'Oswald', sans-serif", fontSize: 34, fontWeight: 700, lineHeight: 1, color: ink },
+  statLabel: { fontSize: 13, color: "#5a7fa8", marginTop: 4, textTransform: "uppercase", letterSpacing: "0.5px" },
 
   creed: { padding: "48px 0 72px" },
-  creedTitle: { fontFamily: "'Oswald', sans-serif", fontSize: 14, letterSpacing: "2px", textTransform: "uppercase", color: "#5a5448", marginBottom: 24 },
+  creedTitle: { fontFamily: "'Oswald', sans-serif", fontSize: 14, letterSpacing: "3px", textTransform: "uppercase", color: blood, marginBottom: 24, textShadow: `0 0 8px ${blood}` },
   creedGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: 16 },
-  creedCard: { background: "#fff", border: `1px solid ${line}`, borderRadius: 12, padding: 24 },
+  creedCard: { background: card_bg, border: `1px solid ${card_border}`, borderRadius: 12, padding: 24 },
   creedNum: { fontFamily: "'Oswald', sans-serif", fontSize: 13, fontWeight: 700, color: blood, marginBottom: 12 },
-  creedCardTitle: { fontSize: 18, fontWeight: 700, margin: "0 0 8px" },
-  creedBody: { fontSize: 14, lineHeight: 1.55, color: "#4a443a", margin: 0 },
+  creedCardTitle: { fontSize: 18, fontWeight: 700, margin: "0 0 8px", color: "#ffffff" },
+  creedBody: { fontSize: 14, lineHeight: 1.55, color: "#7ba7d4", margin: 0 },
 
   page: { padding: "32px 0 64px" },
   pageHead: { display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 16, marginBottom: 24, flexWrap: "wrap" },
-  pageTitle: { fontFamily: "'Oswald', sans-serif", fontSize: 36, fontWeight: 700, letterSpacing: "-0.5px", margin: 0 },
-  pageDesc: { fontSize: 15, color: "#5a5448", margin: "6px 0 0", maxWidth: 560 },
+  pageTitle: { fontFamily: "'Oswald', sans-serif", fontSize: 36, fontWeight: 700, letterSpacing: "-0.5px", margin: 0, color: "#fff" },
+  pageDesc: { fontSize: 15, color: "#7ba7d4", margin: "6px 0 0", maxWidth: 560 },
 
   filterBar: { display: "flex", justifyContent: "space-between", gap: 12, marginBottom: 24, flexWrap: "wrap" },
-  segGroup: { display: "flex", gap: 4, background: "#fff", border: `1px solid ${line}`, borderRadius: 8, padding: 3 },
+  segGroup: { display: "flex", gap: 4, background: card_bg, border: `1px solid ${card_border}`, borderRadius: 8, padding: 3 },
   seg: { background: "none", border: "none", cursor: "pointer", font: "inherit", fontSize: 13, fontWeight: 600,
-    color: "#5a5448", padding: "6px 12px", borderRadius: 6, textTransform: "capitalize" },
-  segOn: { background: ink, color: "#fff" },
+    color: "#5a7fa8", padding: "6px 12px", borderRadius: 6, textTransform: "capitalize" },
+  segOn: { background: blood, color: "#001a2c", fontWeight: 800 },
 
   caseGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 16 },
-  card: { textAlign: "left", background: "#fff", border: `1px solid ${line}`, borderRadius: 12, padding: 20,
+  card: { textAlign: "left", background: card_bg, border: `1px solid ${card_border}`, borderRadius: 12, padding: 20,
     cursor: "pointer", font: "inherit", color: ink, display: "flex", flexDirection: "column", gap: 8 },
   cardTop: { display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" },
   statusTag: { fontSize: 11, fontWeight: 800, letterSpacing: "0.5px", border: "1.5px solid", borderRadius: 4, padding: "3px 7px", fontFamily: "'Oswald', sans-serif" },
   streamerTag: { fontSize: 10, fontWeight: 700, letterSpacing: "0.5px", color: gold, border: `1px solid ${gold}`, borderRadius: 4, padding: "3px 6px" },
-  cardAlias: { fontFamily: "'Oswald', sans-serif", fontSize: 22, fontWeight: 700, marginTop: 4 },
-  cardReal: { fontSize: 13, color: "#4a443a" },
-  hiddenName: { fontStyle: "italic", color: "#9a9282" },
-  cardSummary: { fontSize: 14, lineHeight: 1.5, color: "#4a443a", margin: "4px 0", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" },
-  cardFoot: { display: "flex", justifyContent: "space-between", fontSize: 12, color: "#5a5448", borderTop: `1px solid ${line}`, paddingTop: 10 },
+  cardAlias: { fontFamily: "'Oswald', sans-serif", fontSize: 22, fontWeight: 700, marginTop: 4, color: "#ffffff" },
+  cardReal: { fontSize: 13, color: "#7ba7d4" },
+  hiddenName: { fontStyle: "italic", color: "#3a6080" },
+  cardSummary: { fontSize: 14, lineHeight: 1.5, color: "#7ba7d4", margin: "4px 0", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" },
+  cardFoot: { display: "flex", justifyContent: "space-between", fontSize: 12, color: "#5a7fa8", borderTop: `1px solid ${card_border}`, paddingTop: 10 },
   evCount: { fontWeight: 600 },
   voteMini: { fontWeight: 600 },
-  cardReporter: { display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#5a5448" },
+  cardReporter: { display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "#5a7fa8" },
 
-  backBtn: { background: "none", border: "none", cursor: "pointer", font: "inherit", fontSize: 14, fontWeight: 600, color: "#5a5448", padding: 0, marginBottom: 20 },
+  backBtn: { background: "none", border: "none", cursor: "pointer", font: "inherit", fontSize: 14, fontWeight: 600, color: "#5a7fa8", padding: 0, marginBottom: 20 },
   caseHead: { display: "flex", justifyContent: "space-between", gap: 20, flexWrap: "wrap", marginBottom: 16 },
-  caseAlias: { fontFamily: "'Oswald', sans-serif", fontSize: 42, fontWeight: 700, margin: "12px 0 6px", letterSpacing: "-1px" },
+  caseAlias: { fontFamily: "'Oswald', sans-serif", fontSize: 42, fontWeight: 700, margin: "12px 0 6px", letterSpacing: "-1px", color: "#fff" },
   caseReal: { fontSize: 16 },
-  caseFiledBox: { background: "#fff", border: `1px solid ${line}`, borderRadius: 10, padding: "12px 16px", minWidth: 160 },
-  caseFiledLabel: { fontSize: 11, textTransform: "uppercase", letterSpacing: "1px", color: "#9a9282" },
+  caseFiledBox: { background: card_bg, border: `1px solid ${card_border}`, borderRadius: 10, padding: "12px 16px", minWidth: 160 },
+  caseFiledLabel: { fontSize: 11, textTransform: "uppercase", letterSpacing: "1px", color: "#3a6080" },
   caseFiledName: { display: "flex", alignItems: "center", gap: 6, fontWeight: 700, margin: "4px 0" },
-  caseSummary: { fontSize: 17, lineHeight: 1.6, color: "#3a352c", maxWidth: 680, marginBottom: 32 },
-  sectionTitle: { fontFamily: "'Oswald', sans-serif", fontSize: 14, letterSpacing: "1.5px", textTransform: "uppercase", color: "#5a5448", margin: "32px 0 14px" },
+  caseSummary: { fontSize: 17, lineHeight: 1.6, color: "#7ba7d4", maxWidth: 680, marginBottom: 32 },
+  sectionTitle: { fontFamily: "'Oswald', sans-serif", fontSize: 14, letterSpacing: "1.5px", textTransform: "uppercase", color: blood, margin: "32px 0 14px" },
 
   evList: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 12 },
-  evCard: { display: "flex", gap: 12, background: "#fff", border: `1px solid ${line}`, borderRadius: 10, padding: 14, alignItems: "center" },
-  evThumb: { width: 44, height: 44, borderRadius: 8, background: paper, display: "grid", placeItems: "center", fontSize: 22, flexShrink: 0 },
-  evType: { fontWeight: 700, fontSize: 14 },
-  evNote: { fontSize: 13, color: "#5a5448" },
+  evCard: { display: "flex", gap: 12, background: card_bg, border: `1px solid ${card_border}`, borderRadius: 10, padding: 14, alignItems: "center" },
+  evThumb: { width: 44, height: 44, borderRadius: 8, background: "#071020", display: "grid", placeItems: "center", fontSize: 22, flexShrink: 0 },
+  evType: { fontWeight: 700, fontSize: 14, color: "#fff" },
+  evNote: { fontSize: 13, color: "#5a7fa8" },
 
-  tally: { background: "#fff", border: `1px solid ${line}`, borderRadius: 12, padding: 20 },
-  tallyBar: { display: "flex", height: 14, borderRadius: 99, overflow: "hidden", background: paper },
+  tally: { background: card_bg, border: `1px solid ${card_border}`, borderRadius: 12, padding: 20 },
+  tallyBar: { display: "flex", height: 14, borderRadius: 99, overflow: "hidden", background: "#071020" },
   tallyGuilty: { background: blood },
   tallyClear: { background: green },
   tallyNums: { display: "flex", justifyContent: "space-between", marginTop: 12, fontSize: 14 },
 
   voteBtns: { display: "flex", gap: 12, marginTop: 20, flexWrap: "wrap" },
-  voteGuilty: { flex: 1, minWidth: 200, background: blood, color: "#fff", border: "none", borderRadius: 10, padding: "16px", fontWeight: 700, fontSize: 15, cursor: "pointer", fontFamily: "inherit" },
-  voteClear: { flex: 1, minWidth: 200, background: "#fff", color: green, border: `2px solid ${green}`, borderRadius: 10, padding: "16px", fontWeight: 700, fontSize: 15, cursor: "pointer", fontFamily: "inherit" },
-  votedNote: { marginTop: 20, padding: 16, background: "#fff", border: `1px solid ${line}`, borderRadius: 10, fontSize: 15 },
-  closedNote: { marginTop: 20, padding: 16, background: "#fff", border: `1px solid ${line}`, borderRadius: 10, fontSize: 15, color: "#4a443a" },
-  warnBox: { marginTop: 24, padding: 16, background: "rgba(184,71,47,0.07)", border: `1px solid ${blood}`, borderRadius: 10, fontSize: 14, color: "#7a2e1e", lineHeight: 1.5 },
+  voteGuilty: { flex: 1, minWidth: 200, background: blood, color: "#001a2c", border: "none", borderRadius: 10, padding: "16px", fontWeight: 800, fontSize: 15, cursor: "pointer", fontFamily: "inherit", textTransform: "uppercase" },
+  voteClear: { flex: 1, minWidth: 200, background: "transparent", color: green, border: `2px solid ${green}`, borderRadius: 10, padding: "16px", fontWeight: 700, fontSize: 15, cursor: "pointer", fontFamily: "inherit" },
+  votedNote: { marginTop: 20, padding: 16, background: card_bg, border: `1px solid ${card_border}`, borderRadius: 10, fontSize: 15 },
+  closedNote: { marginTop: 20, padding: 16, background: card_bg, border: `1px solid ${card_border}`, borderRadius: 10, fontSize: 15, color: "#7ba7d4" },
+  warnBox: { marginTop: 24, padding: 16, background: "rgba(0,194,255,0.06)", border: `1px solid ${blood}`, borderRadius: 10, fontSize: 14, color: "#7ba7d4", lineHeight: 1.5 },
 
   stepRow: { display: "flex", gap: 8, margin: "24px 0", flexWrap: "wrap" },
-  stepPill: { display: "flex", alignItems: "center", gap: 8, padding: "8px 14px", borderRadius: 99, border: `1px solid ${line}`, background: "#fff", fontSize: 14, fontWeight: 600, color: "#9a9282" },
-  stepPillOn: { borderColor: ink, color: ink, background: "#fff" },
-  stepNum: { width: 22, height: 22, borderRadius: 99, background: ink, color: "#fff", display: "grid", placeItems: "center", fontSize: 12, fontWeight: 700 },
+  stepPill: { display: "flex", alignItems: "center", gap: 8, padding: "8px 14px", borderRadius: 99, border: `1px solid ${card_border}`, background: card_bg, fontSize: 14, fontWeight: 600, color: "#3a6080" },
+  stepPillOn: { borderColor: blood, color: blood, background: "rgba(0,194,255,0.08)" },
+  stepNum: { width: 22, height: 22, borderRadius: 99, background: blood, color: "#001a2c", display: "grid", placeItems: "center", fontSize: 12, fontWeight: 800 },
 
-  formCard: { background: "#fff", border: `1px solid ${line}`, borderRadius: 12, padding: 28, maxWidth: 640 },
+  formCard: { background: card_bg, border: `1px solid ${card_border}`, borderRadius: 12, padding: 28, maxWidth: 640 },
   field: { marginBottom: 20 },
-  label: { display: "block", fontSize: 13, fontWeight: 700, marginBottom: 8, color: "#3a352c" },
-  input: { width: "100%", padding: "11px 14px", border: `1.5px solid ${line}`, borderRadius: 8, fontSize: 15, fontFamily: "inherit", boxSizing: "border-box", background: paper },
-  textarea: { width: "100%", padding: "11px 14px", border: `1.5px solid ${line}`, borderRadius: 8, fontSize: 15, fontFamily: "inherit", boxSizing: "border-box", background: paper, resize: "vertical" },
-  select: { padding: "11px 12px", border: `1.5px solid ${line}`, borderRadius: 8, fontSize: 14, fontFamily: "inherit", background: paper },
-  streamerNotice: { padding: 12, background: "rgba(192,138,46,0.1)", border: `1px solid ${gold}`, borderRadius: 8, fontSize: 13, color: "#7a5618", marginBottom: 20 },
-  evReq: { padding: 12, background: paper, borderRadius: 8, fontSize: 13, fontWeight: 600, color: "#5a5448", marginBottom: 20 },
+  label: { display: "block", fontSize: 13, fontWeight: 700, marginBottom: 8, color: "#a0c4e8" },
+  input: { width: "100%", padding: "11px 14px", border: `1.5px solid ${card_border}`, borderRadius: 8, fontSize: 15, fontFamily: "inherit", boxSizing: "border-box", background: "#071020", color: ink },
+  textarea: { width: "100%", padding: "11px 14px", border: `1.5px solid ${card_border}`, borderRadius: 8, fontSize: 15, fontFamily: "inherit", boxSizing: "border-box", background: "#071020", color: ink, resize: "vertical" },
+  select: { padding: "11px 12px", border: `1.5px solid ${card_border}`, borderRadius: 8, fontSize: 14, fontFamily: "inherit", background: "#071020", color: ink },
+  streamerNotice: { padding: 12, background: "rgba(245,196,0,0.08)", border: `1px solid ${gold}`, borderRadius: 8, fontSize: 13, color: gold, marginBottom: 20 },
+  evReq: { padding: 12, background: "#071020", borderRadius: 8, fontSize: 13, fontWeight: 600, color: "#5a7fa8", marginBottom: 20 },
   evAddRow: { display: "flex", gap: 8, flexWrap: "wrap" },
   evDraftList: { display: "flex", flexDirection: "column", gap: 8, marginTop: 8 },
-  evDraftItem: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, padding: "10px 14px", background: paper, borderRadius: 8, fontSize: 14 },
-  btnX: { background: "none", border: "none", color: blood, cursor: "pointer", font: "inherit", fontSize: 13, fontWeight: 600 },
+  evDraftItem: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, padding: "10px 14px", background: "#071020", borderRadius: 8, fontSize: 14 },
+  btnX: { background: "none", border: "none", color: "#ff4d4d", cursor: "pointer", font: "inherit", fontSize: 13, fontWeight: 600 },
   formFoot: { display: "flex", justifyContent: "space-between", gap: 12, marginTop: 8 },
 
-  oathBox: { padding: 20, background: "rgba(184,71,47,0.06)", border: `1px solid ${blood}`, borderRadius: 10, marginBottom: 20 },
-  oathTitle: { fontFamily: "'Oswald', sans-serif", fontSize: 18, margin: "0 0 10px", color: "#7a2e1e" },
-  oathBody: { fontSize: 14, lineHeight: 1.6, color: "#5a3025", margin: "0 0 16px" },
-  oathCheck: { display: "flex", alignItems: "center", gap: 10, fontWeight: 700, fontSize: 15, cursor: "pointer" },
-  reviewBox: { padding: 16, background: paper, borderRadius: 10, fontSize: 14, lineHeight: 1.9, marginBottom: 20 },
+  oathBox: { padding: 20, background: "rgba(0,194,255,0.05)", border: `1px solid ${blood}`, borderRadius: 10, marginBottom: 20 },
+  oathTitle: { fontFamily: "'Oswald', sans-serif", fontSize: 18, margin: "0 0 10px", color: blood },
+  oathBody: { fontSize: 14, lineHeight: 1.6, color: "#7ba7d4", margin: "0 0 16px" },
+  oathCheck: { display: "flex", alignItems: "center", gap: 10, fontWeight: 700, fontSize: 15, cursor: "pointer", color: ink },
+  reviewBox: { padding: 16, background: "#071020", borderRadius: 10, fontSize: 14, lineHeight: 1.9, marginBottom: 20, color: "#a0c4e8" },
 
   wallHead: { maxWidth: 640, marginBottom: 32 },
-  wallTitle: { fontFamily: "'Oswald', sans-serif", fontSize: 48, fontWeight: 700, letterSpacing: "-1px", margin: 0, color: ink },
-  wallDesc: { fontSize: 16, lineHeight: 1.6, color: "#4a443a", marginTop: 12 },
+  wallTitle: { fontFamily: "'Oswald', sans-serif", fontSize: 48, fontWeight: 700, letterSpacing: "-1px", margin: 0, color: gold, textShadow: `0 0 24px ${gold}88` },
+  wallDesc: { fontSize: 16, lineHeight: 1.6, color: "#7ba7d4", marginTop: 12 },
   wallGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 16 },
-  yellaCard: { textAlign: "left", background: ink, color: yella, border: `2px solid ${yella}`, borderRadius: 12, padding: 22, cursor: "pointer", font: "inherit", display: "flex", flexDirection: "column", gap: 6 },
-  yellaBrand: { fontFamily: "'Oswald', sans-serif", fontSize: 13, fontWeight: 700, letterSpacing: "4px", color: yella },
+  yellaCard: { textAlign: "left", background: "#0a0d00", color: yella, border: `2px solid ${yella}`, borderRadius: 12, padding: 22, cursor: "pointer", font: "inherit", display: "flex", flexDirection: "column", gap: 6 },
+  yellaBrand: { fontFamily: "'Oswald', sans-serif", fontSize: 13, fontWeight: 700, letterSpacing: "4px", color: yella, textShadow: `0 0 10px ${yella}` },
   yellaAlias: { fontFamily: "'Oswald', sans-serif", fontSize: 24, fontWeight: 700, color: "#fff" },
   yellaReal: { fontSize: 15, fontWeight: 700, color: yella },
   yellaStreamer: { fontSize: 12, color: "#c9a832", fontStyle: "italic" },
-  yellaVotes: { fontSize: 12, color: "#8a8270", marginTop: 8, borderTop: "1px solid #2a2620", paddingTop: 10 },
-  empty: { padding: 48, textAlign: "center", color: "#9a9282", background: "#fff", border: `1px dashed ${line}`, borderRadius: 12 },
+  yellaVotes: { fontSize: 12, color: "#5a5020", marginTop: 8, borderTop: "1px solid #2a2800", paddingTop: 10 },
+  empty: { padding: 48, textAlign: "center", color: "#3a6080", background: card_bg, border: `1px dashed ${card_border}`, borderRadius: 12 },
 
-  table: { width: "100%", maxWidth: 640, borderCollapse: "collapse", background: "#fff", border: `1px solid ${line}`, borderRadius: 12, overflow: "hidden" },
-  tdKey: { padding: "14px 18px", borderBottom: `1px solid ${line}`, fontSize: 14, color: "#3a352c" },
-  tdVal: { padding: "14px 18px", borderBottom: `1px solid ${line}`, fontSize: 18, fontWeight: 700, fontFamily: "'Oswald', sans-serif", textAlign: "right", color: blood },
+  table: { width: "100%", maxWidth: 640, borderCollapse: "collapse", background: card_bg, border: `1px solid ${card_border}`, borderRadius: 12, overflow: "hidden" },
+  tdKey: { padding: "14px 18px", borderBottom: `1px solid ${card_border}`, fontSize: 14, color: "#7ba7d4" },
+  tdVal: { padding: "14px 18px", borderBottom: `1px solid ${card_border}`, fontSize: 18, fontWeight: 700, fontFamily: "'Oswald', sans-serif", textAlign: "right", color: blood },
   tierList: { display: "flex", flexDirection: "column", gap: 10, maxWidth: 640 },
-  tierRow: { display: "flex", alignItems: "center", gap: 10, padding: "12px 16px", background: "#fff", border: `1px solid ${line}`, borderRadius: 10, fontSize: 15 },
-  tierMeta: { marginLeft: "auto", fontSize: 13, color: "#5a5448" },
+  tierRow: { display: "flex", alignItems: "center", gap: 10, padding: "12px 16px", background: card_bg, border: `1px solid ${card_border}`, borderRadius: 10, fontSize: 15 },
+  tierMeta: { marginLeft: "auto", fontSize: 13, color: "#5a7fa8" },
 
-  footer: { borderTop: `2px solid ${ink}`, padding: "32px 20px", display: "flex", alignItems: "center", gap: 16, justifyContent: "center", flexWrap: "wrap", marginTop: 40 },
-  footBrand: { fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: 18 },
-  footTag: { fontSize: 13, color: "#5a5448" },
+  footer: { borderTop: `2px solid ${card_border}`, padding: "32px 20px", display: "flex", alignItems: "center", gap: 16, justifyContent: "center", flexWrap: "wrap", marginTop: 40 },
+  footBrand: { fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: 18, color: blood },
+  footTag: { fontSize: 13, color: "#5a7fa8" },
 };
 
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Inter:wght@400;600;700;800&display=swap');
 * { box-sizing: border-box; }
-body { margin: 0; }
+body { margin: 0; background: #0d1b2a; }
 .card { transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease; }
-.card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); border-color: ${ink}; }
+.card:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,194,255,0.15); border-color: #00c2ff; }
 .yella { transition: transform .12s ease, box-shadow .12s ease; }
-.yella:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(232,195,59,0.25); }
-.btn-primary:hover { filter: brightness(1.08); }
-.btn-primary:disabled { opacity: .4; cursor: not-allowed; filter: none; }
-.btn-ghost:hover { background: rgba(0,0,0,0.05); }
-.vote-guilty:hover { filter: brightness(1.08); }
-.vote-clear:hover { background: rgba(59,156,110,0.08); }
-.seg:hover:not([style*="background: rgb(18"]) { color: ${ink}; }
-.navlink:hover { color: ${ink}; }
-input:focus, textarea:focus, select:focus { outline: 2px solid ${blood}; outline-offset: 1px; border-color: ${blood}; }
-button:focus-visible { outline: 2px solid ${blood}; outline-offset: 2px; }
+.yella:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(245,196,0,0.3); }
+.btn-primary:hover { filter: brightness(1.1); box-shadow: 0 0 16px rgba(0,194,255,0.4); }
+.btn-primary:disabled { opacity: .35; cursor: not-allowed; filter: none; box-shadow: none; }
+.btn-ghost:hover { background: rgba(0,194,255,0.07); border-color: #00c2ff; color: #00c2ff; }
+.vote-guilty:hover { filter: brightness(1.1); box-shadow: 0 0 20px rgba(0,194,255,0.35); }
+.vote-clear:hover { background: rgba(0,230,118,0.08); }
+.seg:hover { color: #00c2ff; }
+.navlink:hover { color: #00c2ff; background: rgba(0,194,255,0.08); }
+input:focus, textarea:focus, select:focus { outline: 2px solid #00c2ff; outline-offset: 1px; border-color: #00c2ff; }
+button:focus-visible { outline: 2px solid #00c2ff; outline-offset: 2px; }
+input::placeholder, textarea::placeholder { color: #3a6080; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 `;

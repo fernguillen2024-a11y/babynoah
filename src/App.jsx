@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react";
+import bearImg from "./bear.png";
 
 /* ============================================================
    bitethatthing — Cheater Accountability Tribunal (Front End)
@@ -141,7 +142,7 @@ function Nav({ route, setRoute, me }) {
   return (
     <header style={S.nav}>
       <button style={S.brand} onClick={() => setRoute({ name: "home" })}>
-        <span style={S.logoMark}>🐻</span>
+        <img src={bearImg} alt="" style={S.logoMark} />
         <span style={S.brandText}>bitethatthing</span>
       </button>
       <nav style={S.navItems}>
@@ -580,7 +581,7 @@ function RulesPage() {
 function Footer({ setRoute }) {
   return (
     <footer style={S.footer}>
-      <div style={S.footBrand}>🐻 bitethatthing</div>
+      <div style={S.footBrand}><img src={bearImg} alt="" style={{ width: 20, height: 20, verticalAlign: "middle", marginRight: 6 }} />bitethatthing</div>
       <div style={S.footTag}>A community tribunal. Evidence over anonymity. Reputation over noise.</div>
       <button className="btn-ghost" style={S.btnGhost} onClick={() => setRoute({ name: "rules" })}>Read the Code</button>
     </footer>
@@ -599,7 +600,7 @@ const S = {
     padding: "12px 20px", background: "rgba(244,240,230,0.92)", backdropFilter: "blur(8px)",
     borderBottom: `2px solid ${ink}`, flexWrap: "wrap" },
   brand: { display: "flex", alignItems: "center", gap: 8, background: "none", border: "none", cursor: "pointer", padding: 0 },
-  logoMark: { fontSize: 24, lineHeight: 1 },
+  logoMark: { width: 28, height: 28, objectFit: "contain" },
   brandText: { fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: 22, letterSpacing: "-0.5px", color: ink },
   navItems: { display: "flex", gap: 4, marginLeft: 8 },
   navlink: { background: "none", border: "none", cursor: "pointer", font: "inherit", fontSize: 14, fontWeight: 600,

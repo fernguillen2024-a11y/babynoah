@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import bearImg from "./bear.png";
+import headerImg from "./HEADER.png";
 
 /* ============================================================
    bitethatthing — Cheater Accountability Tribunal (Front End)
@@ -170,6 +171,9 @@ function Home({ cases, setRoute }) {
   const onTrial = cases.filter((c) => c.status === "open").length;
   return (
     <>
+      <div style={S.heroBanner}>
+        <img src={headerImg} alt="bitethatthing banner" style={S.heroBannerImg} />
+      </div>
       <section style={S.hero}>
         <div style={S.heroBrand}>EST. BY bitethatthing · A COMMUNITY TRIBUNAL</div>
         <h1 style={S.heroTitle}>
@@ -625,7 +629,9 @@ const S = {
   btnGhostLg: { background: "none", color: ink, border: `1.5px solid ${ink}`, borderRadius: 8, padding: "13px 22px",
     fontWeight: 700, fontSize: 16, cursor: "pointer", fontFamily: "inherit" },
 
-  hero: { padding: "72px 0 48px", maxWidth: 780 },
+  heroBanner: { width: "100%", overflow: "hidden", maxHeight: 340, display: "flex", alignItems: "center", justifyContent: "center" },
+  heroBannerImg: { width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" },
+  hero: { padding: "48px 0 48px", maxWidth: 780 },
   heroBrand: { fontSize: 12, fontWeight: 700, letterSpacing: "3px", color: blood, marginBottom: 20, fontFamily: "'Oswald', sans-serif", textShadow: `0 0 8px ${blood}` },
   heroTitle: { fontFamily: "'Oswald', sans-serif", fontSize: "clamp(38px, 7vw, 78px)", lineHeight: 0.95,
     fontWeight: 700, letterSpacing: "-1px", margin: "0 0 24px", color: "#ffffff" },

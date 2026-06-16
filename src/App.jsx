@@ -629,8 +629,8 @@ const S = {
   btnGhostLg: { background: "none", color: ink, border: `1.5px solid ${ink}`, borderRadius: 8, padding: "13px 22px",
     fontWeight: 700, fontSize: 16, cursor: "pointer", fontFamily: "inherit" },
 
-  heroBanner: { width: "100%", overflow: "hidden", maxHeight: 340, display: "flex", alignItems: "center", justifyContent: "center" },
-  heroBannerImg: { width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" },
+  heroBanner: { width: "100%", overflow: "hidden" },
+  heroBannerImg: { width: "100%", maxHeight: 340, objectFit: "cover", objectPosition: "center", display: "block" },
   hero: { padding: "48px 0 48px", maxWidth: 780 },
   heroBrand: { fontSize: 12, fontWeight: 700, letterSpacing: "3px", color: blood, marginBottom: 20, fontFamily: "'Oswald', sans-serif", textShadow: `0 0 8px ${blood}` },
   heroTitle: { fontFamily: "'Oswald', sans-serif", fontSize: "clamp(38px, 7vw, 78px)", lineHeight: 0.95,

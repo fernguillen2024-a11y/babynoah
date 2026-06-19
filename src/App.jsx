@@ -674,8 +674,10 @@ const KB_ARTICLES = [
     id: "what-is-cheating",
     category: "The Basics",
     q: "What exactly counts as cheating in Fortnite?",
-    tags: ["cheating", "basics", "definition", "aimbot", "wallhack"],
+    tags: ["cheating", "basics", "definition", "aimbot", "wallhack", "cho-mo", "cheater"],
     a: `Cheating in Fortnite means using any third-party software, hardware device, or exploit to gain an unfair mechanical advantage over other players — something that cannot be done through skill, practice, or game knowledge alone.
+
+On this site we call them what they are: **cho-mos**. A cho-mo is a cheating coward — someone who cannot compete on a fair playing field so they use software or hardware to take what they didn't earn. They hide behind anonymous aliases because deep down they know exactly what they are.
 
 The main categories:
 • **Aimbot** — software that automatically moves your crosshair to enemy hitboxes for you
@@ -685,6 +687,7 @@ The main categories:
 • **No Recoil / No Spread** — removes weapon spread patterns so every shot hits perfectly
 • **Soft Aim** — subtly inflates aim assist beyond its legal maximum
 • **Cronus Zen / XIM Apex** — hardware devices that abuse aim assist loopholes
+• **Cho-mo** — our word for all of the above. A cheating coward who steals wins they did not earn and hides their real name because they are ashamed of what they are.
 
 What is NOT cheating:
 • High natural aim from thousands of hours of practice

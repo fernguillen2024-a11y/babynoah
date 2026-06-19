@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import bearImg from "./bear.png";
 import headerImg from "./HEADER.png";
+import cheaterImg from "./cheater.png";
 
 /* ============================================================
    bitethatthing — Cheater Accountability Tribunal (Front End)
@@ -223,32 +224,37 @@ function Home({ cases, setRoute }) {
       <div style={S.heroBanner}>
         <img src={headerImg} alt="bitethatthing banner" style={S.heroBannerImg} />
       </div>
-      <section style={S.hero}>
-        <div style={S.heroBrand}>EST. BY bitethatthing · A COMMUNITY TRIBUNAL</div>
-        <h1 style={S.heroTitle}>
-          Make Fortnite<br /><span style={S.heroAccent}>Great Again.</span>
-        </h1>
-        <p style={S.heroSub}>
-          Cheating is for rats. Aimbotters and wallhackers hide behind fake names
-          because they are ashamed of what they are. Pull the real name from the replay,
-          bring the evidence, and let the community brand them YELLA permanently.
-          Every verified catch builds your rep and takes the game back.
-        </p>
-        <div style={S.heroBtns}>
-          <button className="btn-primary" style={S.btnPrimaryLg} onClick={() => setRoute({ name: "report" })}>
-            Expose a cheater
-          </button>
-          <button className="btn-ghost" style={S.btnGhostLg} onClick={() => setRoute({ name: "wall" })}>
-            See the Wall of Yella →
-          </button>
+      <div style={S.heroRow}>
+        <section style={S.hero}>
+          <div style={S.heroBrand}>EST. BY bitethatthing · A COMMUNITY TRIBUNAL</div>
+          <h1 style={S.heroTitle}>
+            Make Fortnite<br /><span style={S.heroAccent}>Great Again.</span>
+          </h1>
+          <p style={S.heroSub}>
+            Cheating is for rats. Aimbotters and wallhackers hide behind fake names
+            because they are ashamed of what they are. Pull the real name from the replay,
+            bring the evidence, and let the community brand them YELLA permanently.
+            Every verified catch builds your rep and takes the game back.
+          </p>
+          <div style={S.heroBtns}>
+            <button className="btn-primary" style={S.btnPrimaryLg} onClick={() => setRoute({ name: "report" })}>
+              Expose a cheater
+            </button>
+            <button className="btn-ghost" style={S.btnGhostLg} onClick={() => setRoute({ name: "wall" })}>
+              See the Wall of Yella →
+            </button>
+          </div>
+          <div style={S.statRow}>
+            <Stat n={verified} label="branded YELLA" accent />
+            <Stat n={onTrial} label="on trial now" />
+            <Stat n="1 strike" label="for an honest mistake" />
+            <Stat n="permanent" label="when we ban, you're gone" />
+          </div>
+        </section>
+        <div style={S.heroImgWrap}>
+          <img src={cheaterImg} alt="President Jonesy — In my Fortnite, there's no room for cheaters" style={S.heroImg} />
         </div>
-        <div style={S.statRow}>
-          <Stat n={verified} label="branded YELLA" accent />
-          <Stat n={onTrial} label="on trial now" />
-          <Stat n="1 strike" label="for an honest mistake" />
-          <Stat n="permanent" label="when we ban, you're gone" />
-        </div>
-      </section>
+      </div>
 
       <section style={S.creed}>
         <h2 style={S.creedTitle}>The deal</h2>
@@ -1300,9 +1306,12 @@ const S = {
   btnGhostLg: { background: "none", color: ink, border: `1.5px solid ${ink}`, borderRadius: 8, padding: "13px 22px",
     fontWeight: 700, fontSize: 16, cursor: "pointer", fontFamily: "inherit" },
 
+  heroRow: { display: "flex", alignItems: "center", gap: 40, flexWrap: "wrap" },
+  heroImgWrap: { flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" },
+  heroImg: { width: 380, maxWidth: "100%", borderRadius: 16, filter: "drop-shadow(0 8px 40px rgba(0,194,255,0.18))" },
   heroBanner: { width: "100%", overflow: "hidden" },
   heroBannerImg: { width: "100%", maxHeight: 340, objectFit: "cover", objectPosition: "center", display: "block" },
-  hero: { padding: "48px 0 48px", maxWidth: 780 },
+  hero: { padding: "48px 0 48px", flex: 1, minWidth: 300 },
   heroBrand: { fontSize: 12, fontWeight: 700, letterSpacing: "3px", color: blood, marginBottom: 20, fontFamily: "'Oswald', sans-serif", textShadow: `0 0 8px ${blood}` },
   heroTitle: { fontFamily: "'Oswald', sans-serif", fontSize: "clamp(38px, 7vw, 78px)", lineHeight: 0.95,
     fontWeight: 700, letterSpacing: "-1px", margin: "0 0 24px", color: "#ffffff" },

@@ -230,10 +230,20 @@ function Home({ cases, setRoute }) {
           <h1 style={S.heroTitle}>
             Make Fortnite<br /><span style={S.heroAccent}>Great Again.</span>
           </h1>
-          <p style={S.heroLore}>
-            Jonesy isn&apos;t dead — he&apos;s just ashamed of all the cheaters.
-            So he took over Epic to clean it up himself.
-          </p>
+          <div style={S.loreBox}>
+            <div style={S.loreLine}>
+              The Island survived the Zero Point. The Loop was broken. Jonesy made it out.
+            </div>
+            <div style={S.loreLine}>
+              But what he found on the outside broke him harder than any storm ever could —
+              millions of players grinding clean, losing to rats with software doing the work for them.
+            </div>
+            <div style={S.loreLine}>
+              So Jonesy didn&apos;t retire. He took over Epic.
+              And his first executive order: <span style={{ color: gold, fontWeight: 800 }}>no room for cheaters.</span>
+            </div>
+            <div style={S.loreCredit}>— The bitethatthing Canon</div>
+          </div>
           <p style={S.heroSub}>
             Cheating is for rats. Aimbotters and wallhackers hide behind fake names
             because they are ashamed of what they are. Pull the real name from the replay,
@@ -1320,7 +1330,9 @@ const S = {
   heroTitle: { fontFamily: "'Oswald', sans-serif", fontSize: "clamp(38px, 7vw, 78px)", lineHeight: 0.95,
     fontWeight: 700, letterSpacing: "-1px", margin: "0 0 24px", color: "#ffffff" },
   heroAccent: { color: gold, textShadow: `0 0 20px ${gold}88` },
-  heroLore: { fontSize: 14, fontWeight: 700, color: blood, letterSpacing: "0.3px", margin: "0 0 16px", fontFamily: "'Oswald', sans-serif", textTransform: "uppercase" },
+  loreBox: { borderLeft: `3px solid ${blood}`, paddingLeft: 16, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: 10 },
+  loreLine: { fontSize: 14, lineHeight: 1.65, color: "#7ba7d4", fontStyle: "italic" },
+  loreCredit: { fontSize: 11, fontWeight: 800, letterSpacing: "2px", color: blood, textTransform: "uppercase", marginTop: 4, fontFamily: "'Oswald', sans-serif" },
   heroSub: { fontSize: 18, lineHeight: 1.6, color: "#7ba7d4", maxWidth: 620, margin: "0 0 32px" },
   heroBtns: { display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 56 },
   statRow: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 24,

@@ -245,7 +245,7 @@ function Home({ cases, setRoute }) {
             <div style={S.loreCredit}>— The bitethatthing Canon</div>
           </div>
           <p style={S.heroSub}>
-            Cheating is for rats. Aimbotters and wallhackers hide behind fake names
+            Cheating is for rats and cho-mos. Aimbotters and wallhackers hide behind fake names
             because they are ashamed of what they are. Pull the real name from the replay,
             bring the evidence, and let the community brand them YELLA permanently.
             Every verified catch builds your rep and takes the game back.
@@ -1015,7 +1015,7 @@ Future feature: when we add user accounts, verified reporters will be able to fl
     category: "The Mission",
     q: "What is bitethatthing actually trying to accomplish?",
     tags: ["mission", "purpose", "why", "community", "make gaming great again"],
-    a: `**Make Gaming Great Again. Cheating is for rats.**
+    a: `**Make Fortnite Great Again. Cheating is for rats and cho-mos.**
 
 That is what we are doing here.
 
@@ -1032,7 +1032,7 @@ It means the lobby should be fair. It means a ten-year-old who saved up for a ba
 **The deal we offer:**
 Bring real evidence. Let the community judge it fairly. Get it right and your word carries more weight next time. Get it wrong and you answer for it. This is how trust gets built. This is how the community takes its game back.
 
-Cheating is for rats. Real players play clean. This site exists to make that difference permanent.`,
+Cheating is for rats and cho-mos. Real players play clean. This site exists to make that difference permanent.`,
   },
   {
     id: "credibility-system",
@@ -1274,7 +1274,7 @@ function Footer({ setRoute }) {
   return (
     <footer style={S.footer}>
       <div style={S.footBrand}><img src={bearImg} alt="" style={{ width: 20, height: 20, verticalAlign: "middle", marginRight: 6 }} />bitethatthing</div>
-      <div style={S.footTag}>A community tribunal. Evidence over anonymity. Reputation over noise.</div>
+      <div style={S.footTag}>A community tribunal. Cheating is for rats and cho-mos. Make Fortnite Great Again.</div>
       <button className="btn-ghost" style={S.btnGhost} onClick={() => setRoute({ name: "rules" })}>Read the Code</button>
     </footer>
   );

@@ -230,6 +230,10 @@ function Home({ cases, setRoute }) {
           <h1 style={S.heroTitle}>
             Make Fortnite<br /><span style={S.heroAccent}>Great Again.</span>
           </h1>
+          <p style={S.heroLore}>
+            Jonesy isn&apos;t dead — he&apos;s just ashamed of all the cheaters.
+            So he took over Epic to clean it up himself.
+          </p>
           <p style={S.heroSub}>
             Cheating is for rats. Aimbotters and wallhackers hide behind fake names
             because they are ashamed of what they are. Pull the real name from the replay,
@@ -1316,6 +1320,7 @@ const S = {
   heroTitle: { fontFamily: "'Oswald', sans-serif", fontSize: "clamp(38px, 7vw, 78px)", lineHeight: 0.95,
     fontWeight: 700, letterSpacing: "-1px", margin: "0 0 24px", color: "#ffffff" },
   heroAccent: { color: gold, textShadow: `0 0 20px ${gold}88` },
+  heroLore: { fontSize: 14, fontWeight: 700, color: blood, letterSpacing: "0.3px", margin: "0 0 16px", fontFamily: "'Oswald', sans-serif", textTransform: "uppercase" },
   heroSub: { fontSize: 18, lineHeight: 1.6, color: "#7ba7d4", maxWidth: 620, margin: "0 0 32px" },
   heroBtns: { display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 56 },
   statRow: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 24,

@@ -129,6 +129,7 @@ export default function App() {
             <CaseView c={cases.find((x) => x.id === route.id)} voted={voted[route.id]} castVote={castVote} setRoute={navigate} />
           )}
           {route.name === "rules" && <RulesPage />}
+          {route.name === "knowledge" && <KnowledgeBase setRoute={navigate} />}
         </div>
       </main>
       <Footer setRoute={navigate} />
@@ -164,6 +165,7 @@ function Nav({ route, setRoute, me }) {
       <nav style={S.navItems} className="nav-desktop">
         <Item to="feed">Cases</Item>
         <Item to="wall">Wall of Yella</Item>
+        <Item to="knowledge">FAQ</Item>
         <Item to="rules">The Code</Item>
       </nav>
 
@@ -201,6 +203,7 @@ function Nav({ route, setRoute, me }) {
           </div>
           <button className="navlink" style={S.mobileLink} onClick={() => go("feed")}>Cases</button>
           <button className="navlink" style={S.mobileLink} onClick={() => go("wall")}>Wall of Yella</button>
+          <button className="navlink" style={S.mobileLink} onClick={() => go("knowledge")}>FAQ</button>
           <button className="navlink" style={S.mobileLink} onClick={() => go("rules")}>The Code</button>
           <button className="btn-primary" style={{ ...S.btnPrimary, width: "100%", marginTop: 8, padding: "12px" }} onClick={() => go("report")}>
             File a report
@@ -644,6 +647,605 @@ function RulesPage() {
   );
 }
 
+/* ===================== KNOWLEDGE BASE / FAQ ======================== */
+
+const KB_ARTICLES = [
+  {
+    id: "what-is-cheating",
+    category: "The Basics",
+    q: "What exactly counts as cheating in Fortnite?",
+    tags: ["cheating", "basics", "definition", "aimbot", "wallhack"],
+    a: `Cheating in Fortnite means using any third-party software, hardware device, or exploit to gain an unfair mechanical advantage over other players — something that cannot be done through skill, practice, or game knowledge alone.
+
+The main categories:
+• **Aimbot** — software that automatically moves your crosshair to enemy hitboxes for you
+• **Wallhack / ESP** — software that shows you enemy locations through walls
+• **Trigger Bot** — fires automatically the moment your crosshair touches an enemy
+• **Speedhack** — moves your character faster than the engine permits
+• **No Recoil / No Spread** — removes weapon spread patterns so every shot hits perfectly
+• **Soft Aim** — subtly inflates aim assist beyond its legal maximum
+• **Cronus Zen / XIM Apex** — hardware devices that abuse aim assist loopholes
+
+What is NOT cheating:
+• High natural aim from thousands of hours of practice
+• Strong controller aim assist (it is strong by design — that's Epic's choice)
+• Pre-editing and game sense from experience
+• Playing on low ping with fast hardware
+• Being just genuinely that good
+
+The rule: if the advantage comes from software or hardware outside of what Epic provides to every player equally, it is cheating.`,
+  },
+  {
+    id: "why-cheat",
+    category: "The Basics",
+    q: "Why do people cheat in Fortnite?",
+    tags: ["why", "psychology", "cheaters", "basics"],
+    a: `Short answer: they cannot win fairly and they know it.
+
+**Ego protection** — Some players cannot accept that they are average. A loss feels like an attack on their identity. A cheat is a way to win without risking the truth about their actual skill level.
+
+**Content creation fraud** — Some streamers and YouTubers cheat to manufacture "highlight reel" clips. They need views. They cannot produce that content legitimately. They hide it behind a persona.
+
+**Griefing and power** — Some people cheat purely to ruin other people's experiences. The win is watching others suffer. These are the most honest cheaters about what they are.
+
+**Peer pressure and community** — Private cheat communities normalize it. When your whole Discord is cheating, it stops feeling wrong.
+
+**Low risk perception** — Easy Anti-Cheat ban waves are slow. A cheater can operate for weeks before a ban hits. They often just buy a new account and continue.
+
+**The bottom line:** every cheater has decided that their desire to appear skilled is more important than the experience of every other player in that lobby. That is a character decision, not a technical one. This site exists because those decisions should have consequences that follow them.`,
+  },
+  {
+    id: "how-aimbot-works",
+    category: "How Cheats Work",
+    q: "How does aimbot actually work — technically?",
+    tags: ["aimbot", "technical", "how it works", "memory", "detection"],
+    a: `An aimbot reads the game's memory while it is running to find the coordinates of every enemy player in the match. It then calculates the angle between your crosshair and the enemy's hitbox and moves your mouse (or analog stick) to that angle automatically.
+
+**Types of aimbot:**
+
+**Rage aimbot** — No subtlety. Snaps directly to head instantly. Obvious in any replay. Used by players who don't care if they get reported.
+
+**Silent aimbot** — Snaps to the target, fires, then returns the crosshair to where you were aiming. Designed to look normal on killcam. In slow-motion replay you can still see the single-frame crosshair teleport.
+
+**Humanized aimbot** — Adds a simulated curve and delay to the snap to mimic human movement. Harder to spot visually. Detectable through statistical analysis of reaction times across many eliminations.
+
+**Bone prioritization** — Targets specific hitboxes. Head-priority explains a 95%+ headshot rate over many eliminations. Legitimate players, even pros, average 30-60%.
+
+**How to spot it in replay:**
+Set replay speed to 0.1×. Watch the crosshair frame by frame as the accused engages. Human aim shows gradual movement — even a fast flick has a curve. Aimbot shows a single-frame snap to perfect center-mass or head. The crosshair should not teleport.`,
+  },
+  {
+    id: "how-wallhack-works",
+    category: "How Cheats Work",
+    q: "How does wallhack / ESP work?",
+    tags: ["wallhack", "esp", "technical", "walls", "detection"],
+    a: `ESP (Extra Sensory Perception) reads game memory to extract the positions of all players on the map, then renders an overlay on the screen showing boxes, health bars, distances, and weapon loadouts — even through solid walls.
+
+**What the cheater sees:** Glowing boxes around every player in the lobby at all times. They know exactly where you are before you peek. They know your health. They know your weapon.
+
+**Hardware ESP** — The most advanced version runs on a second computer that reads the GPU output via a capture card and overlays information on a separate monitor. This never touches the game's memory and bypasses anti-cheat entirely.
+
+**How to detect it in replay:**
+
+The key tool: in Fortnite replays, footstep audio is shown as a visible ring expanding from players' feet. This is the ground truth for "what information was available."
+
+Watch the accused in replay:
+• Do they rotate toward a player BEFORE the audio ring reaches them? Wallhack.
+• Do they pre-aim an exact corner at head height before peeking? Wallhack.
+• Do they build/edit in a pattern that only makes sense if they know your exact position? Wallhack.
+• Do they track your position through multiple structures without any line of sight? Wallhack.
+
+**The hardest thing to explain away:** a player who rotates 90 degrees away from the storm, through a solid building, directly toward where you are hiding — before you have made any noise and before they could see you through any gap. That does not happen from game sense. Game sense uses audio and visual information. Wallhack uses information the game provides but does not intend to share.`,
+  },
+  {
+    id: "how-to-use-replay",
+    category: "Catching Cheaters",
+    q: "How do I use Fortnite's replay system to catch a cheater?",
+    tags: ["replay", "how to", "guide", "evidence", "real name"],
+    a: `The Fortnite replay system is the single most powerful tool on this platform. Here is the full process:
+
+**Step 1 — Find the replay**
+After any match: Career → Replays. Fortnite keeps your recent matches. Open the one where you suspect cheating.
+
+**Step 2 — Switch to the cheater's POV**
+Click on the suspected cheater's name in the replay interface. You are now watching exactly what they saw — their crosshair, their camera, their inputs.
+
+**Step 3 — Slow it down**
+Set replay speed to 0.1× or lower. This is where aimbot becomes obvious. Human aim is gradual even at maximum speed. Aimbot is a single-frame crosshair teleport.
+
+**Step 4 — Pull the real name**
+Pause the replay. Open the scoreboard (Tab key). Every player's real Epic account name is listed here — the name tied to their actual account. Screenshot this. This is the name that goes on the case.
+
+**Step 5 — Check the audio rings**
+Fortnite's replay shows footstep audio as a visual ring expanding from each player. Watch the accused. Do they react to your position BEFORE the ring reaches them? That is information they should not have.
+
+**Step 6 — Check pre-aim angles**
+Watch the accused peek around corners. Are they already aiming at head height at the exact pixel you will appear before they can see you? That is wallhack or experience — replay context tells you which.
+
+**Step 7 — Document everything**
+Screenshot the scoreboard for the real name. Record a clip of the suspicious moment at slow speed. Note the headshot count and total eliminations. These three things — name proof, mechanical proof, stat proof — are the strongest case you can file.`,
+  },
+  {
+    id: "pull-real-name",
+    category: "Catching Cheaters",
+    q: "How do I find a cheater's real Epic account name?",
+    tags: ["real name", "epic", "replay", "roster", "scoreboard"],
+    a: `The Fortnite replay system displays every player's real Epic account username on the scoreboard during the match. This is the name tied to their actual account — not the display name they chose, but the account-level identifier.
+
+**Method 1 — In-match scoreboard**
+During the match, open the scoreboard (Tab). If you catch the cheater in time, the names are right there. Screenshot it before the match ends.
+
+**Method 2 — Replay scoreboard**
+After the match, open the replay (Career → Replays). At any point during the replay, press Tab to open the scoreboard. All player names are listed. Pause the replay, screenshot it. This works even hours after the match.
+
+**Method 3 — Replay POV**
+Switch to the cheater's POV in replay. In some Fortnite versions, the name also appears in the HUD or in team display when playing squads.
+
+**Why this name matters:**
+This is the name on their Epic account. It cannot be changed in-game mid-match. When combined with clip evidence, it makes a complete case: you have proven WHO cheated and HOW they cheated. Both are required for a strong report on this site.
+
+**Important:** We only use the Epic account name — what the game's own system shows. We do not search for real-world identity beyond what the player voluntarily attached to their gaming account. That is the line between accountability and doxxing.`,
+  },
+  {
+    id: "false-positives",
+    category: "Catching Cheaters",
+    q: "How do I make sure I'm not falsely accusing an innocent player?",
+    tags: ["false positive", "innocent", "controller", "aim assist", "game sense", "accuracy"],
+    a: `This is the most important question on this site. A false accusation against an honest player is the worst thing you can do here. Before you file, run through this checklist:
+
+**Aim assist check**
+Fortnite's controller aim assist is genuinely very powerful. A controller player tracking through edits or making fast flicks can look exactly like aimbot to a KB&M player. The difference in replay: aim assist SLOWS the crosshair near a target and keeps it on them as they move. It does not SNAP from zero. If the crosshair teleports in a single frame — that's aimbot. If it smoothly tracks — that is likely aim assist or skill.
+
+**Audio cue check**
+Before accusing wallhack, check the audio rings in replay. If the accused rotated toward you AND the footstep ring had already reached them, they reacted to audio. That is game sense, not ESP. You must check the rings before filing.
+
+**Pre-edit check**
+Experienced builders pre-edit windows, floors, and cones as part of practiced sequences. They are not reacting to where you are — they are executing a routine they have practiced thousands of times. Replay shows their input timing. If the edit happened before they had any line of sight or audio, that is suspicious. If it was part of an obvious build sequence — it's just skill.
+
+**Reaction time check**
+Human reaction to a visual stimulus can be under 150ms for elite players on fast hardware. A 1ms monitor at 240fps makes a real player look superhuman to someone on 60fps with input lag. Check multiple clips. A pattern of sub-50ms reactions across many engagements is suspicious. One fast reaction is not.
+
+**Headshot rate in context**
+95%+ headshots over 15+ eliminations is a strong indicator. One clip of three headshots in a row is not. Check the full game stats, not just the clip.
+
+**The standard:** if you cannot explain specifically WHAT they did that is physically impossible — not just impressive, but impossible — do not file. The community will dismiss the case and your credibility takes the hit.`,
+  },
+  {
+    id: "cronus-zen",
+    category: "How Cheats Work",
+    q: "What is a Cronus Zen and why is it cheating?",
+    tags: ["cronus", "zen", "xim", "hardware", "aim assist", "controller"],
+    a: `The Cronus Zen (and similar devices like XIM Apex) is a hardware adapter that sits between your controller and your console or PC. It manipulates your inputs before they reach the game, exploiting the game's aim assist system at a hardware level.
+
+**What it does:**
+• Eliminates all weapon recoil by making tiny automatic counter-movements
+• Maximizes aim assist "bubble" activation time
+• Allows a mouse to be detected by the game as a controller, giving mouse precision with full aim assist
+• Runs pre-programmed "scripts" for specific weapons — the device knows the recoil pattern and compensates automatically
+
+**Why it is cheating:**
+Every other player deals with weapon recoil. Every other player chooses between mouse precision (no aim assist) or controller aim assist (with its limitations). The Cronus Zen removes those limitations. It is an unfair mechanical advantage that is not available to players following the rules.
+
+**Why it's hard to detect:**
+Anti-cheat software cannot easily detect a hardware device. The game sees legitimate controller inputs — it does not know those inputs were modified before arrival. Epic Games has banned Cronus Zen in their ToS but enforcement is extremely difficult.
+
+**How to spot it in replay:**
+• Zero recoil on weapons that have significant recoil (ARs, SMGs at range)
+• Perfectly vertical spray control that does not match human capability
+• Suspiciously high accuracy at ranges where the weapon's spread should make it impractical
+
+It looks less flashy than aimbot but it is still cheating. The player did not earn that accuracy. A device earned it for them.`,
+  },
+  {
+    id: "eac-why-fails",
+    category: "Anti-Cheat & Epic",
+    q: "Why doesn't Epic's anti-cheat stop cheaters?",
+    tags: ["epic", "anti-cheat", "EAC", "easy anti-cheat", "ban", "why"],
+    a: `Fortnite uses Easy Anti-Cheat (EAC), a kernel-level anti-cheat system. It is one of the most widely used in gaming. It is also not enough.
+
+**What EAC does:**
+• Scans for known cheat software signatures in memory
+• Monitors for unauthorized memory injection
+• Checks game file integrity
+• Runs at kernel level (the deepest level of your OS) so it has broad access
+
+**Why cheats still get through:**
+
+**The cat-and-mouse problem** — Cheat developers update their software the moment EAC updates its signatures. Private cheat subscriptions ($30-100/month) fund full-time developers whose only job is bypassing EAC. They are often faster than Epic's security team.
+
+**Ban waves, not real-time bans** — EAC often detects cheaters but does not ban them immediately. It waits and bans in waves — sometimes weeks later. This means a cheater can ruin thousands of matches before a ban lands. BiteThatThing catches them while they are still active.
+
+**Kernel cheats** — The most sophisticated cheats load at a deeper kernel level or boot level than EAC, making themselves invisible to the scanner before EAC initializes.
+
+**Hardware cheats** — Cronus Zen and hardware ESP never touch the game's code or memory. EAC cannot see them. They are entirely outside its detection model.
+
+**Account cycling** — Fortnite accounts are free. A banned cheater creates a new account in minutes and continues. EAC banning is not a long-term deterrent for determined cheaters.
+
+**What this site does differently:** Community detection through replay analysis catches what software cannot — behavioral patterns that are mechanically impossible. A human watching a replay at 0.1× speed sees what EAC cannot detect in the code.`,
+  },
+  {
+    id: "report-to-epic",
+    category: "Anti-Cheat & Epic",
+    q: "Should I still report cheaters to Epic directly?",
+    tags: ["epic", "report", "in-game", "both", "official"],
+    a: `Yes — always report in-game to Epic AND file a case here. They serve different purposes.
+
+**Report to Epic in-game:**
+Open the scoreboard during or after the match. Click the player's name. Select "Report." Choose "Cheating." Submit.
+
+This goes into Epic's system. It contributes to their data. Enough reports on one account may accelerate a ban. Epic does act on reports — they just do not tell you when or confirm it.
+
+**Why you also need this site:**
+Epic's report goes into a black hole. You never hear back. You do not know if it worked. The cheater continues playing for weeks while Epic's process runs.
+
+This site does what Epic cannot: it creates a public record, names the account, documents the evidence, and applies immediate community accountability. Other players can see the case, vote on it, and know to watch out for that account.
+
+**The combination is the most powerful:**
+• Epic report → works toward a system ban (eventually)
+• bitethatthing case → immediate public record, community verdict, permanent Wall of Yella brand
+
+Do both. Always. One is the official channel. This is the community's answer while the official channel catches up.`,
+  },
+  {
+    id: "stat-anomaly",
+    category: "Catching Cheaters",
+    q: "What stats are suspicious enough to be evidence?",
+    tags: ["stats", "headshots", "kd", "accuracy", "evidence", "anomaly"],
+    a: `Stats alone are rarely enough to convict. But extreme stat anomalies combined with clip evidence make a much stronger case.
+
+**Headshot rate**
+The most useful stat. Legitimate competitive players average 30-60% headshots. Pro players occasionally spike higher in specific matches.
+• 70-80%: Impressive, look closer, not alone enough
+• 85-94%: Very suspicious, especially over many games
+• 95%+: Over 10+ eliminations, this is a statistical near-impossibility without assistance
+
+**Accuracy / Hit rate**
+Fortnite's AR has natural spread. Long-range hits are inconsistent for legitimate players.
+• Sustained 80%+ accuracy with a weapon that has spread is suspicious
+• Perfect accuracy on every shot of a spray is impossible without no-spread cheat
+
+**Reaction time (from clip timestamps)**
+• Under 50ms consistently across many engagements: suspicious
+• A single 80ms reaction: a great player on fast hardware
+• Consistent sub-80ms on pre-aims where they did not have visual information: wallhack territory
+
+**Kill/Death ratio in context**
+A 20 KD in casual lobbies alone does not prove cheating — some players are just that good.
+A 20 KD where every kill is a headshot from across the map is different.
+A 20 KD where their replay shows mechanical impossibilities is evidence.
+
+**The rule:** stats build context. They do not stand alone. A replay clip showing the mechanical impossibility is always the primary evidence. Stats are the supporting argument that says "this is a pattern, not a coincidence."`,
+  },
+  {
+    id: "soft-aim",
+    category: "How Cheats Work",
+    q: "What is soft aim and why is it so hard to prove?",
+    tags: ["soft aim", "subtle", "aim assist", "gray area", "hard to detect"],
+    a: `Soft aim is the hardest cheat to prove because it is designed specifically to be invisible.
+
+**What it does:**
+Fortnite's controller aim assist has a maximum strength value. Soft aim slightly increases that value beyond its legal cap — not enough to snap to heads like a rage aimbot, but enough to make tracking measurably easier than any legitimate player can achieve.
+
+Think of it as aim assist turned up from 10 to 12. Legal players are capped at 10. The difference feels invisible in a clip. It shows up in patterns over thousands of shots.
+
+**Why it is hard to detect:**
+• It looks exactly like strong aim assist — because it is, just stronger
+• No obvious snap. No teleporting crosshair. Just slightly tighter tracking.
+• You need statistical analysis over many games to see the deviation from what aim assist can legitimately produce
+• Most clips cannot prove it alone
+
+**What to look for:**
+• Tracking through edits and structures where even the strongest legitimate aim assist would lose the target
+• Consistency of headshots on targets that are actively jumping and building — where legitimate aim assist would struggle
+• Comparing their tracking to known pro controller players in similar situations
+• Stats deviating significantly from what documented pro controller players achieve
+
+**Our advice:** do not file a soft aim case without statistical evidence AND at least one mechanical clip that shows tracking beyond what any documented legitimate aim assist ceiling can explain. These cases are the hardest for the community to judge. The evidence standard must be higher.`,
+  },
+  {
+    id: "streamer-cheating",
+    category: "Streamers & Content",
+    q: "Do streamers cheat? Why would someone with an audience risk it?",
+    tags: ["streamer", "twitch", "youtube", "content", "views", "ttv", "yt"],
+    a: `Yes. Streamer cheating is real and it is arguably more damaging than casual cheating because it influences thousands of viewers.
+
+**Why streamers cheat:**
+• Their entire income depends on impressive content. Views come from highlights. Highlights require kills. Kills require accuracy.
+• Humanized aimbot and soft aim can be invisible on stream — they look like godlike skill, not software.
+• The financial incentive is enormous. A streamer with 10,000 viewers earns real money. Cheating to maintain that is a business decision for some.
+• The "raw aim" persona is a content niche. Claiming to have untouched, unassisted aim when you do not is active fraud on your audience.
+
+**Why it is worse:**
+• Viewers try to learn from them. They watch the "technique" that is actually software.
+• New players believe the game looks like that legitimately. It sets impossible expectations.
+• The streamer builds community trust on a lie.
+• They have more to hide and more resources to hide it with — better cheat software, more experience disguising it.
+
+**Why bitethatthing treats streamers differently:**
+Cases against accounts with "ttv" or "yt" in their name receive the **Streamer · Extra Scrutiny** badge. This means:
+• The case surfaces higher in the feed — more eyes on the evidence
+• Voters are reminded the accused has a public platform and the accusation carries amplified weight in both directions
+• Extra scrutiny also means: be MORE careful before voting guilty. A false accusation against a streamer harms their livelihood. The evidence must be especially solid.`,
+  },
+  {
+    id: "buy-new-account",
+    category: "The System",
+    q: "Can't cheaters just buy a new account and come back?",
+    tags: ["new account", "ban", "permanent", "smurfing", "fresh start"],
+    a: `Yes — and this is the most important reason why a public record matters more than a ban alone.
+
+A Fortnite account is free. An EAC ban takes 60 seconds to circumvent: create new Epic account, re-download game, continue cheating. Epic's ban system is a revolving door.
+
+**What a ban cannot do:**
+• A ban does not follow the person — it follows the account
+• A new account starts fresh. No record. No consequence. No accountability.
+
+**What bitethatthing does differently:**
+The Wall of Yella brands the cheater's **real name** — the Epic account name pulled from the replay roster. When they make a new account, the old account's record remains. The community knows the pattern. When a new case is filed on a similar name with similar behavior, players can connect the dots.
+
+Future feature: when we add user accounts, verified reporters will be able to flag "known returner" on a new case, linking it to a previous YELLA branded account. The history follows the person, not the account.
+
+**The honest answer:** no accountability system stops a determined cheater completely. What we do is raise the cost. Cheating used to be completely free — infinite accounts, zero public record, no social consequence. Here, at minimum, there is a permanent public record of what they did. That matters to some people more than an Epic ban does.`,
+  },
+  {
+    id: "make-gaming-great",
+    category: "The Mission",
+    q: "What is bitethatthing actually trying to accomplish?",
+    tags: ["mission", "purpose", "why", "community", "make gaming great again"],
+    a: `**Make Gaming Great Again. Cheating is for rats.**
+
+That is what we are doing here.
+
+Fortnite is one of the most played games in the world. Millions of people — kids, adults, competitive players, casual players — log in expecting a fair match. Cheaters decide that their desire to appear skilled is worth ruining those matches for everyone else. That is not a small thing. That is a choice to take something from other people.
+
+Epic bans accounts. We brand names.
+
+**What we are building:**
+A community that holds cheaters accountable beyond what game systems can do. A permanent public record. A tribunal where evidence is required and false accusations are punished just as seriously. A place where the honest players — the ones who grind, who lose, who improve, who play clean — have a voice that carries weight.
+
+**What "make gaming great again" means:**
+It means the lobby should be fair. It means a ten-year-old who saved up for a battle pass should be able to play a match without getting demolished by someone who paid $50 for software to do the work for them. It means the ranked system should reflect skill. It means streaming should show real plays from real players.
+
+**The deal we offer:**
+Bring real evidence. Let the community judge it fairly. Get it right and your word carries more weight next time. Get it wrong and you answer for it. This is how trust gets built. This is how the community takes its game back.
+
+Cheating is for rats. Real players play clean. This site exists to make that difference permanent.`,
+  },
+  {
+    id: "credibility-system",
+    category: "The System",
+    q: "How does the credibility system work and why does it matter?",
+    tags: ["credibility", "reputation", "tiers", "marshal", "sheriff", "trusted", "unproven"],
+    a: `The credibility system is what separates this site from a mob.
+
+Anyone can make an accusation. The question is whether the community should take it seriously. The credibility system answers that question based on track record, not on who yells loudest.
+
+**How it works:**
+
+Every account starts at 50 — "Unproven." You have no history. Your reports will be seen but they start without pre-existing trust.
+
+When the community votes your case as verified: **+8 credibility**
+When the community votes your case as dismissed: **-12 credibility**
+
+The asymmetry is intentional. Losing credibility hurts more than gaining it helps. This discourages speculative or careless reports.
+
+**Tiers:**
+• **Unproven (0-59)** — New. No track record. Vote weight: 1×
+• **Trusted (60-77)** — Proven. Has won verified cases. Vote weight: 1.5×
+• **Sheriff (78-91)** — Consistent. Their reports surface prominently. Vote weight: 2×
+• **Marshal (92-100)** — Elite. Maximum credibility. Their cases pre-load with community weight. Vote weight: 3×
+
+**Why vote weight matters:**
+A Marshal's guilty vote counts as 3 Unproven votes. This reflects reality: someone who has accurately identified 40 cheaters deserves more weight than someone on their first case. The system rewards track record.
+
+**Why this protects the accused:**
+A single angry player cannot tank someone's reputation alone. The weighted voting system means a group of Unproven users voting guilty on an innocent player can be counterbalanced by a smaller number of high-credibility players voting not-guilty. Mob mentality is structurally disadvantaged.`,
+  },
+  {
+    id: "false-accusation-consequences",
+    category: "The System",
+    q: "What happens if I falsely accuse someone?",
+    tags: ["false report", "consequences", "ban", "credibility loss", "punishment"],
+    a: `Filing a false report on this site is treated as seriously as the cheating itself. Here is exactly what happens:
+
+**If your case is dismissed:**
+Your credibility drops by 12 points. This is automatic and immediate.
+
+**If your case is dismissed AND flagged as bad-faith:**
+You receive one bad-faith strike in addition to the credibility loss. The flag means the community determined you did not make an honest mistake — you filed knowing the evidence did not support the accusation.
+
+**First honest mistake:**
+Everyone gets one forgiveness pass. If you file a case in good faith and get it wrong — you misread the replay, you did not notice the footstep audio ring — that is noted but no bad-faith strike is issued. The credibility loss still applies.
+
+**Three bad-faith strikes:**
+You go on trial. The community votes on whether you are a bad-faith actor. This is the same tribunal system — evidence is presented, votes are cast.
+
+**If the community finds you guilty of bad-faith reporting (30 net votes):**
+Permanent ban. Your account is removed. When we ban you, you are gone. This is not a timeout. There is no appeals process. No contact email. The community has spoken.
+
+**Why so serious:**
+A false accusation can damage a real player's reputation permanently. It costs them time (they have to watch their name on the accused list). It can expose them to harassment. The person who did that to them deserves accountability just as much as a cheater does. We mean this.`,
+  },
+  {
+    id: "what-evidence-do-i-need",
+    category: "Catching Cheaters",
+    q: "What evidence do I need to file a strong case?",
+    tags: ["evidence", "what to submit", "replay", "clip", "screenshot", "strong case"],
+    a: `You need at minimum one piece of evidence to file at all. A strong case has three.
+
+**Tier 1 — Identity evidence (who)**
+A screenshot of the Fortnite replay scoreboard showing the accused player's real Epic account name. Without this, the case cannot permanently identify the cheater. It is not required to file, but a case without a name is much harder to act on.
+
+**Tier 2 — Mechanical evidence (what they did)**
+A clip or frame-by-frame replay screenshot showing the specific impossible behavior:
+• Crosshair teleport (single frame snap) = aimbot
+• Crosshair tracking through solid wall = wallhack
+• Perfect pre-aim at exact head height before they can see you = wallhack
+• Zero recoil on a weapon with significant recoil = no-recoil or Cronus
+• Reaction to your position before any audio or visual cue = ESP
+
+This is the most important evidence. Without it, you have no proof of anything impossible.
+
+**Tier 3 — Statistical evidence (the pattern)**
+Headshot rate over 10+ eliminations. Accuracy percentage. Kill/death in context. This supports Tier 2 by showing this is a pattern, not a one-time lucky shot.
+
+**The combination that gets a verdict:**
+Name from replay scoreboard + slow-motion clip of aimbot snap or pre-aim + stat anomaly over the game = the community will very likely vote guilty.
+
+**What gets a case dismissed:**
+"He killed me in one shot" — not evidence.
+"He was moving really fast" — not specific enough.
+A clip of a skilled play that looks suspicious but has a legitimate explanation.
+No replay analysis — just a feeling.
+
+Do the work. Watch the replay. Find the specific moment. That is what gets verified.`,
+  },
+];
+
+const KB_CATEGORIES = [...new Set(KB_ARTICLES.map((a) => a.category))];
+
+function KnowledgeBase({ setRoute }) {
+  const [search, setSearch] = useState("");
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [openId, setOpenId] = useState(null);
+
+  const filtered = useMemo(() => {
+    const q = search.toLowerCase().trim();
+    return KB_ARTICLES.filter((a) => {
+      const matchesCat = activeCategory === "All" || a.category === activeCategory;
+      const matchesSearch = !q || a.q.toLowerCase().includes(q) || a.a.toLowerCase().includes(q) || a.tags.some((t) => t.includes(q));
+      return matchesCat && matchesSearch;
+    });
+  }, [search, activeCategory]);
+
+  const renderAnswer = (text) =>
+    text.split("\n").map((line, i) => {
+      if (!line.trim()) return <br key={i} />;
+      const bold = line.replace(/\*\*(.*?)\*\*/g, (_, m) => `<strong>${m}</strong>`);
+      const bullet = line.startsWith("•");
+      return bullet
+        ? <div key={i} style={S.kbBullet} dangerouslySetInnerHTML={{ __html: "• " + bold.slice(2) }} />
+        : <p key={i} style={S.kbPara} dangerouslySetInnerHTML={{ __html: bold }} />;
+    });
+
+  return (
+    <div style={S.page}>
+      {/* Header */}
+      <div style={S.kbHeader}>
+        <div style={S.heroBrand}>MAKE GAMING GREAT AGAIN · CHEATING IS FOR RATS</div>
+        <h2 style={S.wallTitle}>Cheater Encyclopedia</h2>
+        <p style={S.kbSubtitle}>
+          Everything you need to know about cheating in Fortnite — how it works, how to catch it,
+          how to prove it, and why it matters. If you have a question, the answer is here.
+        </p>
+        {/* Search */}
+        <div style={S.kbSearchWrap}>
+          <span style={S.kbSearchIcon}>🔍</span>
+          <input
+            style={S.kbSearch}
+            placeholder="Search questions, topics, cheats…"
+            value={search}
+            onChange={(e) => { setSearch(e.target.value); setOpenId(null); }}
+          />
+          {search && (
+            <button style={S.kbClear} onClick={() => setSearch("")}>✕</button>
+          )}
+        </div>
+      </div>
+
+      {/* Featured video */}
+      <div style={S.kbVideoWrap}>
+        <div style={S.kbVideoLabel}>FEATURED · SEE IT IN ACTION</div>
+        <div style={S.kbVideoFrame}>
+          <iframe
+            width="100%"
+            height="100%"
+            src="https://www.youtube.com/embed/7D99RsvmtiQ?si=SmQF857W17RKYElk"
+            title="Fortnite Cheater Caught — Real Example"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", borderRadius: 10 }}
+          />
+        </div>
+      </div>
+
+      {/* Category filters */}
+      <div style={S.kbCatRow}>
+        {["All", ...KB_CATEGORIES].map((cat) => (
+          <button
+            key={cat}
+            className="seg"
+            style={{ ...S.seg, ...(activeCategory === cat ? S.segOn : {}), fontSize: 13, padding: "7px 14px" }}
+            onClick={() => { setActiveCategory(cat); setOpenId(null); }}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      {/* Result count */}
+      <div style={S.kbCount}>
+        {filtered.length} article{filtered.length !== 1 ? "s" : ""}
+        {search ? ` matching "${search}"` : activeCategory !== "All" ? ` in ${activeCategory}` : ""}
+      </div>
+
+      {/* Articles */}
+      {filtered.length === 0 ? (
+        <div style={S.empty}>No articles found. Try a different search term.</div>
+      ) : (
+        <div style={S.kbList}>
+          {filtered.map((article) => {
+            const isOpen = openId === article.id;
+            return (
+              <div key={article.id} style={{ ...S.kbCard, ...(isOpen ? S.kbCardOpen : {}) }}>
+                <button
+                  style={S.kbQuestion}
+                  onClick={() => setOpenId(isOpen ? null : article.id)}
+                >
+                  <div style={S.kbQLeft}>
+                    <span style={S.kbCatBadge}>{article.category}</span>
+                    <span style={S.kbQText}>{article.q}</span>
+                  </div>
+                  <span style={{ ...S.kbChevron, transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}>▼</span>
+                </button>
+                {isOpen && (
+                  <div style={S.kbAnswer}>
+                    <div style={S.kbAnswerInner}>
+                      {renderAnswer(article.a)}
+                    </div>
+                    <div style={S.kbTags}>
+                      {article.tags.map((t) => (
+                        <button key={t} style={S.kbTag} onClick={() => { setSearch(t); setOpenId(null); }}>
+                          #{t}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Bottom CTA */}
+      <div style={S.kbCta}>
+        <div style={S.kbCtaTitle}>Caught one? Bring the receipts.</div>
+        <p style={S.kbCtaBody}>
+          You now know exactly what to look for and how to prove it.
+          Pull the name from the replay, document the evidence, and file your case.
+          The community is waiting to judge it.
+        </p>
+        <button className="btn-primary" style={S.btnPrimaryLg} onClick={() => setRoute({ name: "report" })}>
+          Expose a cho-mo →
+        </button>
+      </div>
+    </div>
+  );
+}
+
 /* ----------------------- FOOTER -------------------------- */
 function Footer({ setRoute }) {
   return (
@@ -824,6 +1426,35 @@ const S = {
   tierRow: { display: "flex", alignItems: "center", gap: 10, padding: "12px 16px", background: card_bg, border: `1px solid ${card_border}`, borderRadius: 10, fontSize: 15 },
   tierMeta: { marginLeft: "auto", fontSize: 13, color: "#5a7fa8" },
 
+  kbHeader: { maxWidth: 720, marginBottom: 32 },
+  kbSubtitle: { fontSize: 16, lineHeight: 1.7, color: "#7ba7d4", margin: "12px 0 28px" },
+  kbSearchWrap: { position: "relative", display: "flex", alignItems: "center", maxWidth: 560 },
+  kbSearchIcon: { position: "absolute", left: 14, fontSize: 16, pointerEvents: "none" },
+  kbSearch: { width: "100%", padding: "13px 44px", border: `2px solid ${card_border}`, borderRadius: 10, fontSize: 16, fontFamily: "inherit", background: "#071020", color: ink, boxSizing: "border-box" },
+  kbClear: { position: "absolute", right: 12, background: "none", border: "none", color: "#5a7fa8", cursor: "pointer", fontSize: 16, fontFamily: "inherit", padding: 4 },
+  kbVideoWrap: { maxWidth: 720, marginBottom: 36 },
+  kbVideoLabel: { fontSize: 11, fontWeight: 800, letterSpacing: "2px", color: blood, marginBottom: 12, fontFamily: "'Oswald', sans-serif" },
+  kbVideoFrame: { position: "relative", width: "100%", paddingBottom: "56.25%", borderRadius: 10, overflow: "hidden", border: `2px solid ${card_border}`, background: "#000" },
+  kbCatRow: { display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 },
+  kbCount: { fontSize: 13, color: "#5a7fa8", marginBottom: 20, fontWeight: 600 },
+  kbList: { display: "flex", flexDirection: "column", gap: 8, marginBottom: 48 },
+  kbCard: { background: card_bg, border: `1px solid ${card_border}`, borderRadius: 12, overflow: "hidden", transition: "border-color .15s ease" },
+  kbCardOpen: { borderColor: blood, boxShadow: `0 0 16px rgba(0,194,255,0.12)` },
+  kbQuestion: { width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, padding: "18px 20px", background: "none", border: "none", cursor: "pointer", fontFamily: "inherit", textAlign: "left" },
+  kbQLeft: { display: "flex", flexDirection: "column", gap: 6 },
+  kbCatBadge: { fontSize: 10, fontWeight: 800, letterSpacing: "1px", textTransform: "uppercase", color: blood },
+  kbQText: { fontSize: 16, fontWeight: 700, color: "#e8f0fe", lineHeight: 1.4 },
+  kbChevron: { color: "#5a7fa8", fontSize: 12, flexShrink: 0, transition: "transform .2s ease" },
+  kbAnswer: { borderTop: `1px solid ${card_border}`, padding: "20px 20px 16px" },
+  kbAnswerInner: { maxWidth: 700 },
+  kbPara: { fontSize: 15, lineHeight: 1.75, color: "#a0c4e8", margin: "0 0 12px" },
+  kbBullet: { fontSize: 15, lineHeight: 1.7, color: "#a0c4e8", padding: "2px 0 2px 16px", margin: "0 0 4px" },
+  kbTags: { display: "flex", gap: 8, flexWrap: "wrap", marginTop: 16, paddingTop: 16, borderTop: `1px solid ${card_border}` },
+  kbTag: { background: "none", border: `1px solid ${card_border}`, borderRadius: 99, padding: "4px 10px", fontSize: 12, color: "#5a7fa8", cursor: "pointer", fontFamily: "inherit" },
+  kbCta: { background: card_bg, border: `2px solid ${blood}`, borderRadius: 16, padding: "36px 32px", maxWidth: 640, boxShadow: `0 0 32px rgba(0,194,255,0.1)` },
+  kbCtaTitle: { fontFamily: "'Oswald', sans-serif", fontSize: 28, fontWeight: 700, color: "#fff", marginBottom: 12 },
+  kbCtaBody: { fontSize: 16, lineHeight: 1.6, color: "#7ba7d4", marginBottom: 24 },
+
   footer: { borderTop: `2px solid ${card_border}`, padding: "32px 20px", display: "flex", alignItems: "center", gap: 16, justifyContent: "center", flexWrap: "wrap", marginTop: 40 },
   footBrand: { fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: 18, color: blood },
   footTag: { fontSize: 13, color: "#5a7fa8" },
@@ -847,6 +1478,8 @@ body { margin: 0; background: #0d1b2a; }
 input:focus, textarea:focus, select:focus { outline: 2px solid #00c2ff; outline-offset: 1px; border-color: #00c2ff; }
 button:focus-visible { outline: 2px solid #00c2ff; outline-offset: 2px; }
 input::placeholder, textarea::placeholder { color: #3a6080; }
+.kb-question:hover .kb-q-text { color: #00c2ff; }
+button[style*="kbQuestion"]:hover { background: rgba(0,194,255,0.04) !important; }
 @media (max-width: 700px) {
   .nav-desktop { display: none !important; }
   .nav-mobile { display: flex !important; }

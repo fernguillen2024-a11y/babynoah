@@ -226,17 +226,17 @@ function Home({ cases, setRoute }) {
       <section style={S.hero}>
         <div style={S.heroBrand}>EST. BY bitethatthing · A COMMUNITY TRIBUNAL</div>
         <h1 style={S.heroTitle}>
-          Catch a cheatin&apos;<br /><span style={S.heroAccent}>cho-mo.</span><br />Earn rewards.
+          Make Fortnite<br /><span style={S.heroAccent}>Great Again.</span>
         </h1>
         <p style={S.heroSub}>
-          Aimbotters hide behind fake names because they know what they are.
-          Pull their real name from the replay, bring the receipts, and let the community
-          brand them YELLA. Every verified catch builds your rep — Unproven to Marshal,
-          your word carries more weight with every cho-mo you expose.
+          Cheating is for rats. Aimbotters and wallhackers hide behind fake names
+          because they are ashamed of what they are. Pull the real name from the replay,
+          bring the evidence, and let the community brand them YELLA permanently.
+          Every verified catch builds your rep and takes the game back.
         </p>
         <div style={S.heroBtns}>
           <button className="btn-primary" style={S.btnPrimaryLg} onClick={() => setRoute({ name: "report" })}>
-            Expose a cho-mo
+            Expose a cheater
           </button>
           <button className="btn-ghost" style={S.btnGhostLg} onClick={() => setRoute({ name: "wall" })}>
             See the Wall of Yella →
@@ -253,7 +253,7 @@ function Home({ cases, setRoute }) {
       <section style={S.creed}>
         <h2 style={S.creedTitle}>The deal</h2>
         <div style={S.creedGrid}>
-          <Creed n="01" title="Catch the cho-mo" body="Pull their real name from the replay. No evidence, no case — bring a clip, a screenshot, a stat that can't happen clean." />
+          <Creed n="01" title="Catch the cheater" body="Pull their real name from the replay. No evidence, no case — bring a clip, a screenshot, a stat that can't happen clean." />
           <Creed n="02" title="The community judges" body="Players vote guilty or not-guilty. Hit the threshold and the verdict is permanent. One vote per person, no ballot stuffing." />
           <Creed n="03" title="Earn your rewards" body="Every verified catch levels up your rep. Unproven → Trusted → Sheriff → Marshal. Your word carries more weight with each one." />
           <Creed n="04" title="False reports get you cooked" body="Accuse a clean player on purpose and you go on trial yourself. Three strikes and the community votes you out — for good." />
@@ -1132,7 +1132,7 @@ function KnowledgeBase({ setRoute }) {
     <div style={S.page}>
       {/* Header */}
       <div style={S.kbHeader}>
-        <div style={S.heroBrand}>MAKE GAMING GREAT AGAIN · CHEATING IS FOR RATS</div>
+        <div style={S.heroBrand}>MAKE FORTNITE GREAT AGAIN · CHEATING IS FOR RATS</div>
         <h2 style={S.wallTitle}>Cheater Encyclopedia</h2>
         <p style={S.kbSubtitle}>
           Everything you need to know about cheating in Fortnite — how it works, how to catch it,
@@ -1239,7 +1239,7 @@ function KnowledgeBase({ setRoute }) {
           The community is waiting to judge it.
         </p>
         <button className="btn-primary" style={S.btnPrimaryLg} onClick={() => setRoute({ name: "report" })}>
-          Expose a cho-mo →
+          Expose a cheater →
         </button>
       </div>
     </div>

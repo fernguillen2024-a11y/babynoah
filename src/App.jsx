@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import bearImg from "./bear.png";
 import headerImg from "./HEADER.png";
 
@@ -87,8 +87,14 @@ const STATUS_META = {
 export default function App() {
   const [route, setRoute] = useState({ name: "home" });
   const [cases, setCases] = useState(SEED_CASES);
-  const [voted, setVoted] = useState({}); // caseId -> "guilty"|"notGuilty"
+  const [voted, setVoted] = useState({});
+  const [fadeKey, setFadeKey] = useState(0);
   const me = USERS.bitethatthing;
+
+  const navigate = (r) => {
+    setFadeKey((k) => k + 1);
+    setRoute(r);
+  };
 
   const castVote = (id, kind) => {
     if (voted[id]) return;
@@ -106,24 +112,26 @@ export default function App() {
 
   const addCase = (c) => {
     setCases((cs) => [{ ...c, id: "c" + (cs.length + 1), guilty: 0, notGuilty: 0, status: "open", created: "just now", reporter: me.handle }, ...cs]);
-    setRoute({ name: "feed" });
+    navigate({ name: "feed" });
   };
 
   return (
     <div style={S.app}>
       <style>{CSS}</style>
-      <Nav route={route} setRoute={setRoute} me={me} />
+      <Nav route={route} setRoute={navigate} me={me} />
       <main style={S.main}>
-        {route.name === "home" && <Home cases={cases} setRoute={setRoute} />}
-        {route.name === "feed" && <Feed cases={cases} setRoute={setRoute} />}
-        {route.name === "wall" && <Wall cases={cases} setRoute={setRoute} />}
-        {route.name === "report" && <Report onSubmit={addCase} onCancel={() => setRoute({ name: "feed" })} />}
-        {route.name === "case" && (
-          <CaseView c={cases.find((x) => x.id === route.id)} voted={voted[route.id]} castVote={castVote} setRoute={setRoute} />
-        )}
-        {route.name === "rules" && <RulesPage />}
+        <div key={fadeKey} className="page-fade">
+          {route.name === "home" && <Home cases={cases} setRoute={navigate} />}
+          {route.name === "feed" && <Feed cases={cases} setRoute={navigate} />}
+          {route.name === "wall" && <Wall cases={cases} setRoute={navigate} />}
+          {route.name === "report" && <Report onSubmit={addCase} onCancel={() => navigate({ name: "feed" })} />}
+          {route.name === "case" && (
+            <CaseView c={cases.find((x) => x.id === route.id)} voted={voted[route.id]} castVote={castVote} setRoute={navigate} />
+          )}
+          {route.name === "rules" && <RulesPage />}
+        </div>
       </main>
-      <Footer setRoute={setRoute} />
+      <Footer setRoute={navigate} />
     </div>
   );
 }
@@ -131,36 +139,74 @@ export default function App() {
 /* ----------------------- NAV ----------------------------- */
 function Nav({ route, setRoute, me }) {
   const t = tierFor(me.cred);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const go = (name) => { setRoute({ name }); setMenuOpen(false); };
+
   const Item = ({ to, children }) => (
     <button
       className="navlink"
       style={{ ...S.navlink, ...(route.name === to ? S.navlinkActive : {}) }}
-      onClick={() => setRoute({ name: to })}
+      onClick={() => go(to)}
     >
       {children}
     </button>
   );
+
   return (
     <header style={S.nav}>
-      <button style={S.brand} onClick={() => setRoute({ name: "home" })}>
+      <button style={S.brand} onClick={() => go("home")}>
         <img src={bearImg} alt="" style={S.logoMark} />
         <span style={S.brandText}>bitethatthing</span>
       </button>
-      <nav style={S.navItems}>
+
+      {/* Desktop nav */}
+      <nav style={S.navItems} className="nav-desktop">
         <Item to="feed">Cases</Item>
         <Item to="wall">Wall of Yella</Item>
         <Item to="rules">The Code</Item>
       </nav>
-      <div style={S.navRight}>
+
+      {/* Desktop right */}
+      <div style={S.navRight} className="nav-desktop">
         <div style={S.credPill}>
           <span style={{ ...S.tierDot, background: t.color }} />
           <span style={S.credName}>{me.handle}</span>
           <span style={{ ...S.tierLabel, color: t.color }}>{t.name} · {me.cred}</span>
         </div>
-        <button className="btn-primary" style={S.btnPrimary} onClick={() => setRoute({ name: "report" })}>
+        <button className="btn-primary" style={S.btnPrimary} onClick={() => go("report")}>
           File a report
         </button>
       </div>
+
+      {/* Hamburger — mobile only */}
+      <button
+        className="nav-mobile hamburger"
+        style={S.hamburger}
+        onClick={() => setMenuOpen((o) => !o)}
+        aria-label="Menu"
+      >
+        <span style={{ ...S.hamLine, ...(menuOpen ? S.hamLineTop : {}) }} />
+        <span style={{ ...S.hamLine, ...(menuOpen ? S.hamLineMid : {}) }} />
+        <span style={{ ...S.hamLine, ...(menuOpen ? S.hamLineBot : {}) }} />
+      </button>
+
+      {/* Mobile drawer */}
+      {menuOpen && (
+        <div style={S.mobileMenu} className="nav-mobile">
+          <div style={S.credPill}>
+            <span style={{ ...S.tierDot, background: t.color }} />
+            <span style={S.credName}>{me.handle}</span>
+            <span style={{ ...S.tierLabel, color: t.color }}>{t.name} · {me.cred}</span>
+          </div>
+          <button className="navlink" style={S.mobileLink} onClick={() => go("feed")}>Cases</button>
+          <button className="navlink" style={S.mobileLink} onClick={() => go("wall")}>Wall of Yella</button>
+          <button className="navlink" style={S.mobileLink} onClick={() => go("rules")}>The Code</button>
+          <button className="btn-primary" style={{ ...S.btnPrimary, width: "100%", marginTop: 8, padding: "12px" }} onClick={() => go("report")}>
+            File a report
+          </button>
+        </div>
+      )}
     </header>
   );
 }
@@ -215,7 +261,7 @@ function Home({ cases, setRoute }) {
 }
 const Stat = ({ n, label, accent }) => (
   <div style={S.stat}>
-    <div style={{ ...S.statNum, ...(accent ? { color: "#b8472f" } : {}) }}>{n}</div>
+    <div style={{ ...S.statNum, ...(accent ? { color: "#f5c400", textShadow: "0 0 16px #f5c40066" } : {}) }}>{n}</div>
     <div style={S.statLabel}>{label}</div>
   </div>
 );
@@ -274,10 +320,13 @@ function CaseCard({ c, onClick }) {
   const rep = USERS[c.reporter];
   const repTier = rep ? tierFor(rep.cred) : TIERS[0];
   const meta = STATUS_META[c.status];
+  const netVotes = net(c);
+  const isHot = c.status === "open" && netVotes >= 15 && netVotes < RULES.VOTES_TO_VERIFY;
   return (
-    <button style={S.card} className="card" onClick={onClick}>
+    <button style={{ ...S.card, ...(isHot ? S.cardHot : {}) }} className="card" onClick={onClick}>
       <div style={S.cardTop}>
         <span style={{ ...S.statusTag, color: meta.color, borderColor: meta.color }}>{meta.label}</span>
+        {isHot && <span className="hot-pulse" style={S.hotTag}>🔥 HOT — near verdict</span>}
         {c.streamer && <span style={S.streamerTag}>STREAMER · extra scrutiny</span>}
       </div>
       <div style={S.cardAlias}>{c.alias}</div>
@@ -308,6 +357,12 @@ function CaseView({ c, voted, castVote, setRoute }) {
   const total = c.guilty + c.notGuilty;
   const guiltyPct = total ? Math.round((c.guilty / total) * 100) : 0;
   const toVerify = Math.max(0, RULES.VOTES_TO_VERIFY - net(c));
+
+  const [barPct, setBarPct] = useState(0);
+  useEffect(() => {
+    const t = setTimeout(() => setBarPct(guiltyPct), 80);
+    return () => clearTimeout(t);
+  }, [guiltyPct]);
 
   return (
     <div style={S.page}>
@@ -350,8 +405,8 @@ function CaseView({ c, voted, castVote, setRoute }) {
       <h3 style={S.sectionTitle}>The verdict</h3>
       <div style={S.tally}>
         <div style={S.tallyBar}>
-          <div style={{ ...S.tallyGuilty, width: `${guiltyPct}%` }} />
-          <div style={{ ...S.tallyClear, width: `${100 - guiltyPct}%` }} />
+          <div style={{ ...S.tallyGuilty, width: `${barPct}%`, transition: "width 600ms ease-out" }} />
+          <div style={{ ...S.tallyClear, width: `${100 - barPct}%`, transition: "width 600ms ease-out" }} />
         </div>
         <div style={S.tallyNums}>
           <span style={{ color: "#00c2ff", fontWeight: 800 }}>{c.guilty} guilty</span>
@@ -413,11 +468,18 @@ function Report({ onSubmit, onCancel }) {
       <p style={S.pageDesc}>You&apos;re putting your name and your credibility on this. Make it count.</p>
 
       <div style={S.stepRow}>
-        {["The accused", "The evidence", "Swear it"].map((s, i) => (
-          <div key={i} style={{ ...S.stepPill, ...(step === i + 1 ? S.stepPillOn : {}) }}>
-            <span style={S.stepNum}>{i + 1}</span> {s}
-          </div>
-        ))}
+        {["The accused", "The evidence", "Swear it"].map((s, i) => {
+          const done = step > i + 1;
+          const active = step === i + 1;
+          return (
+            <div key={i} style={{ ...S.stepPill, ...(active ? S.stepPillOn : {}), ...(done ? S.stepPillDone : {}) }}>
+              <span style={{ ...S.stepNum, ...(done ? S.stepNumDone : {}) }}>
+                {done ? "✓" : i + 1}
+              </span>
+              {s}
+            </div>
+          );
+        })}
       </div>
 
       {step === 1 && (
@@ -606,7 +668,7 @@ const S = {
 
   nav: { position: "sticky", top: 0, zIndex: 20, display: "flex", alignItems: "center", gap: 16,
     padding: "12px 20px", background: "rgba(10,22,40,0.96)", backdropFilter: "blur(10px)",
-    borderBottom: `2px solid ${blood}`, flexWrap: "wrap" },
+    borderBottom: `2px solid ${blood}`, flexWrap: "nowrap" },
   brand: { display: "flex", alignItems: "center", gap: 8, background: "none", border: "none", cursor: "pointer", padding: 0 },
   logoMark: { width: 28, height: 28, objectFit: "contain" },
   brandText: { fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: 22, letterSpacing: "-0.5px", color: blood, textShadow: `0 0 12px ${blood}` },
@@ -620,6 +682,13 @@ const S = {
   credName: { fontSize: 13, fontWeight: 600 },
   tierLabel: { fontSize: 12, fontWeight: 700 },
 
+  hamburger: { display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 8, marginLeft: "auto" },
+  hamLine: { display: "block", width: 24, height: 2, background: ink, borderRadius: 2, transition: "transform 0.2s ease, opacity 0.2s ease" },
+  hamLineTop: { transform: "translateY(7px) rotate(45deg)" },
+  hamLineMid: { opacity: 0 },
+  hamLineBot: { transform: "translateY(-7px) rotate(-45deg)" },
+  mobileMenu: { position: "absolute", top: "100%", left: 0, right: 0, background: "#0a1628", borderBottom: `2px solid #00c2ff`, padding: "16px 20px", display: "flex", flexDirection: "column", gap: 8, zIndex: 50 },
+  mobileLink: { background: "none", border: "none", cursor: "pointer", font: "inherit", fontSize: 16, fontWeight: 600, color: ink, padding: "10px 0", textAlign: "left", borderBottom: "1px solid #1a3a6a" },
   btnPrimary: { background: blood, color: "#001a2c", border: "none", borderRadius: 8, padding: "9px 16px",
     fontWeight: 800, fontSize: 14, cursor: "pointer", fontFamily: "inherit", textTransform: "uppercase", letterSpacing: "0.5px" },
   btnPrimaryLg: { background: blood, color: "#001a2c", border: "none", borderRadius: 8, padding: "14px 28px",
@@ -666,6 +735,8 @@ const S = {
   caseGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 16 },
   card: { textAlign: "left", background: card_bg, border: `1px solid ${card_border}`, borderRadius: 12, padding: 20,
     cursor: "pointer", font: "inherit", color: ink, display: "flex", flexDirection: "column", gap: 8 },
+  cardHot: { borderColor: "#f5c400", boxShadow: "0 0 12px rgba(245,196,0,0.2)" },
+  hotTag: { fontSize: 10, fontWeight: 800, letterSpacing: "0.5px", color: "#f5c400", border: "1px solid #f5c400", borderRadius: 4, padding: "3px 6px" },
   cardTop: { display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" },
   statusTag: { fontSize: 11, fontWeight: 800, letterSpacing: "0.5px", border: "1.5px solid", borderRadius: 4, padding: "3px 7px", fontFamily: "'Oswald', sans-serif" },
   streamerTag: { fontSize: 10, fontWeight: 700, letterSpacing: "0.5px", color: gold, border: `1px solid ${gold}`, borderRadius: 4, padding: "3px 6px" },
@@ -710,7 +781,9 @@ const S = {
   stepRow: { display: "flex", gap: 8, margin: "24px 0", flexWrap: "wrap" },
   stepPill: { display: "flex", alignItems: "center", gap: 8, padding: "8px 14px", borderRadius: 99, border: `1px solid ${card_border}`, background: card_bg, fontSize: 14, fontWeight: 600, color: "#3a6080" },
   stepPillOn: { borderColor: blood, color: blood, background: "rgba(0,194,255,0.08)" },
+  stepPillDone: { borderColor: green, color: green, background: "rgba(0,230,118,0.06)" },
   stepNum: { width: 22, height: 22, borderRadius: 99, background: blood, color: "#001a2c", display: "grid", placeItems: "center", fontSize: 12, fontWeight: 800 },
+  stepNumDone: { background: green, color: "#001a2c" },
 
   formCard: { background: card_bg, border: `1px solid ${card_border}`, borderRadius: 12, padding: 28, maxWidth: 640 },
   field: { marginBottom: 20 },
@@ -774,5 +847,18 @@ body { margin: 0; background: #0d1b2a; }
 input:focus, textarea:focus, select:focus { outline: 2px solid #00c2ff; outline-offset: 1px; border-color: #00c2ff; }
 button:focus-visible { outline: 2px solid #00c2ff; outline-offset: 2px; }
 input::placeholder, textarea::placeholder { color: #3a6080; }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media (max-width: 700px) {
+  .nav-desktop { display: none !important; }
+  .nav-mobile { display: flex !important; }
+  .hamburger { display: flex !important; }
+}
+@media (min-width: 701px) {
+  .nav-mobile { display: none !important; }
+  .hamburger { display: none !important; }
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes hotPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+.hot-pulse { animation: hotPulse 1.4s ease-in-out infinite; }
+.page-fade { animation: fadeIn 200ms ease-out both; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } .page-fade { animation: none; } }
 `;
